@@ -1,10 +1,37 @@
-import { Button, Container, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Container,
+  IconButton,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
 import loginBackground from "../assets/images/login-bg.png";
 import useLogin from "../hooks/useLogin";
+import { useState, Fragment } from "react";
 
 const Login = () => {
-  const { token, oauthHandler } = useLogin();
+  const { token, oauthHandler, grantAccess } = useLogin();
+  const [open, setOpen] = useState<boolean>(true);
   console.log(token);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const action = (
+    <Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+    </Fragment>
+  );
 
   return (
     <Container
@@ -15,7 +42,6 @@ const Login = () => {
         backgroundSize: { xs: "cover", lg: "contain" },
         display: "flex",
         flexDirection: "column",
-
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -41,9 +67,23 @@ const Login = () => {
             color: "white",
           }}
         >
-          Login to your spotify
+          Login To Your Spotify ACcount
         </Typography>
       </Button>
+      {!grantAccess && grantAccess !== null && (
+        <Snackbar
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Access not granted"
+          action={action}
+          sx={{ color: "error" }}
+        >
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            Access not granted!
+          </Alert>
+        </Snackbar>
+      )}
     </Container>
   );
 };
