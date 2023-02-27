@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import queryString from "query-string";
 
 const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
@@ -10,10 +10,12 @@ const SCOPE = "user-read-private user-read-email";
 interface useLoginResult {
   token: string | null;
   oauthHandler: () => void;
+  grantAccess: boolean | null;
 }
 
 const useLogin = (): useLoginResult => {
   const [token, setToken] = useState<string | null>(null);
+  const [grantAccess, setGrantAccess] = useState<boolean | null>(null);
 
   const oauthHandler = useCallback(() => {
     const queryParams = queryString.stringify({
@@ -45,12 +47,15 @@ const useLogin = (): useLoginResult => {
           clearInterval(checkPopup);
           console.log("token=", token);
           popup.close();
+          setGrantAccess(true);
+        } else {
+          setGrantAccess(false);
         }
       }
     }, 1000);
   }, []);
 
-  return { token, oauthHandler };
+  return { token, oauthHandler, grantAccess };
 };
 
 export default useLogin;
