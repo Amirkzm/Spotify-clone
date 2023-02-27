@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { authenticateUser, logoutUser } from "../feature/userAuth";
+import { authenticateUser, denyAccess } from "../feature/userAuth";
 
 const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
 const REDIRECT_URI = "http://localhost:5173/home";
@@ -49,7 +49,7 @@ const useLogin = (): useLoginResult => {
           console.log("token=", token);
           popup.close();
         } else {
-          dispatch(logoutUser());
+          dispatch(denyAccess());
         }
       }
     }, 1000);
