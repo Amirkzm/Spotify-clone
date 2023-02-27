@@ -21,12 +21,12 @@ export const userAuthSlice = createSlice({
       state.token = action.payload;
       state.accessGranted = true;
     },
-    logoutUser: (state: UserAuthState) => {
+    denyAccess: (state: UserAuthState) => {
       state.token = null;
-      state.accessGranted = null;
+      state.accessGranted = false;
     },
   },
 });
 
-export const { authenticateUser, logoutUser } = userAuthSlice.actions;
+export const { authenticateUser, denyAccess } = userAuthSlice.actions;
 export default userAuthSlice.reducer;
