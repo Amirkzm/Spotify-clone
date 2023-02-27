@@ -10,11 +10,16 @@ import { Close } from "@mui/icons-material";
 import loginBackground from "../assets/images/login-bg.png";
 import useLogin from "../hooks/useLogin";
 import { useState, Fragment } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 const Login = () => {
-  const { token, oauthHandler, grantAccess } = useLogin();
+  const { oauthHandler } = useLogin();
   const [open, setOpen] = useState<boolean>(true);
-  console.log(token);
+  const { token, accessGranted } = useSelector(
+    (state: RootState) => state.userAuth
+  );
+  // console.log(token);
 
   const handleClose = () => {
     setOpen(false);
@@ -70,7 +75,7 @@ const Login = () => {
           Login To Your Spotify ACcount
         </Typography>
       </Button>
-      {!grantAccess && grantAccess !== null && (
+      {!accessGranted && accessGranted !== null && (
         <Snackbar
           open={open}
           autoHideDuration={6000}
