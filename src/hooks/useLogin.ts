@@ -1,21 +1,22 @@
 import React, { useCallback, useState } from "react";
 import queryString from "query-string";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { authenticateUser, logoutUser } from "../feature/userAuth";
 
 const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
-const REDIRECT_URI = "http://localhost:5173/";
+const REDIRECT_URI = "http://localhost:5173/home";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPE = "user-read-private user-read-email";
 
 interface useLoginResult {
-  token: string | null;
   oauthHandler: () => void;
-  grantAccess: boolean | null;
 }
 
 const useLogin = (): useLoginResult => {
-  const [token, setToken] = useState<string | null>(null);
-  const [grantAccess, setGrantAccess] = useState<boolean | null>(null);
+  const token = useSelector((state: RootState) => state.userAuth.token);
+  const dispatch = useDispatch();
 
   const oauthHandler = useCallback(() => {
     const queryParams = queryString.stringify({
@@ -43,19 +44,18 @@ const useLogin = (): useLoginResult => {
         const hash = popup.location.hash.substring(1);
         const token = hash.split("&")[0].split("=")[1];
         if (token) {
-          setToken(token);
+          dispatch(authenticateUser(token));
           clearInterval(checkPopup);
           console.log("token=", token);
           popup.close();
-          setGrantAccess(true);
         } else {
-          setGrantAccess(false);
+          dispatch(logoutUser());
         }
       }
     }, 1000);
   }, []);
 
-  return { token, oauthHandler, grantAccess };
+  return { oauthHandler };
 };
 
 export default useLogin;
