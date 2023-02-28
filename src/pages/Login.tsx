@@ -11,15 +11,15 @@ import loginBackground from "../assets/images/login-bg.png";
 import useLogin from "../hooks/useLogin";
 import { useState, Fragment } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
+import { RootState } from "../redux/store";
 
 const Login = () => {
   const { oauthHandler } = useLogin();
   const [open, setOpen] = useState<boolean>(true);
-  const { token, accessGranted } = useSelector(
+  const { accessToken, accessGranted } = useSelector(
     (state: RootState) => state.userAuth
   );
-  // console.log(token);
+  // console.log(accessToken);
 
   const handleClose = () => {
     setOpen(false);
