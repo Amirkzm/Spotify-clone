@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import queryString from "query-string";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { authenticateUser, denyAccess } from "../feature/userAuth";
+import { RootState } from "../redux/store";
+import { authenticateUser, denyAccess } from "../redux/feature/userAuth";
+import { useNavigate } from "react-router-dom";
 
 const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
 const REDIRECT_URI = "http://localhost:5173/home";
@@ -15,8 +16,11 @@ interface useLoginResult {
 }
 
 const useLogin = (): useLoginResult => {
-  const token = useSelector((state: RootState) => state.userAuth.token);
+  const accessToken = useSelector(
+    (state: RootState) => state.userAuth.accessToken
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const oauthHandler = useCallback(() => {
     const queryParams = queryString.stringify({
@@ -31,6 +35,7 @@ const useLogin = (): useLoginResult => {
     const height = 730;
     const left = window.screenX + window.outerWidth / 2 - width / 2;
     const top = window.screenY + window.outerHeight / 2 - height / 2;
+    console.log(authUrl);
     const popup = window.open(
       authUrl,
       "Spotify",
@@ -42,11 +47,12 @@ const useLogin = (): useLoginResult => {
         clearInterval(checkPopup);
       } else {
         const hash = popup.location.hash.substring(1);
-        const token = hash.split("&")[0].split("=")[1];
-        if (token) {
-          dispatch(authenticateUser(token));
+        const accessToken = hash.split("&")[0].split("=")[1];
+        if (accessToken) {
+          dispatch(authenticateUser(accessToken));
           clearInterval(checkPopup);
-          console.log("token=", token);
+          console.log("accessToken=", accessToken);
+          navigate("/home");
           popup.close();
         } else {
           dispatch(denyAccess());
