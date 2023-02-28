@@ -1,14 +1,28 @@
 import { createTheme } from "@mui/material";
 
+declare module "@mui/material/styles" {
+  interface Palette {
+    darkBlue: Palette["primary"];
+  }
+  interface PaletteOptions {
+    darkBlue?: PaletteOptions["primary"];
+  }
+}
+
 const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#1DB954",
+      main: "#0f3773",
+      dark: "#141d2b",
+      light: "#243f68",
     },
     background: {
       paper: "rgb(45, 45, 45)",
       default: "rgb(0,0,0)",
+    },
+    darkBlue: {
+      main: "#141d2b",
     },
   },
   typography: {
