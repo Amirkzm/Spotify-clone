@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { UserAuthState } from "../feature/userAuth";
 
 type AccessToken = string;
 
@@ -13,6 +14,8 @@ interface SpotifyTrack {
 
 interface SpotifyArtist {
   // ... artist properties
+  name: string;
+  items: any[];
 }
 
 interface SpotifyPlaylist {
@@ -28,7 +31,9 @@ export const spotifyApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.spotify.com/v1/",
     prepareHeaders: (headers, { getState }) => {
-      const { accessToken } = (getState() as { auth: AuthState }).auth;
+      console.log(getState());
+      const { accessToken } = (getState() as { userAuth: UserAuthState })
+        .userAuth;
 
       if (accessToken) {
         headers.set("Authorization", `Bearer ${accessToken}`);
