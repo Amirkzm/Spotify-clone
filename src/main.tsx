@@ -5,7 +5,7 @@ import App from "./App";
 import "./index.css";
 import theme from "./utils/theme";
 import { Provider } from "react-redux";
-import { store } from "./app";
+import { store } from "./redux";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
