@@ -7,6 +7,8 @@ const store = configureStore({
     userAuth: userAuthSlice,
     [spotifyApi.reducerPath]: spotifyApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(spotifyApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
