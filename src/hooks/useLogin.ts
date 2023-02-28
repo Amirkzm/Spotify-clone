@@ -9,7 +9,8 @@ const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
 const REDIRECT_URI = "http://localhost:5173/home";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
-const SCOPE = "user-read-private user-read-email";
+const SCOPE =
+  "user-read-playback-state user-modify-playback-state playlist-read-private user-follow-read user-read-currently-playing user-read-email user-top-read user-read-recently-played user-read-private user-library-read";
 
 interface useLoginResult {
   oauthHandler: () => void;
