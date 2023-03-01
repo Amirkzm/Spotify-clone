@@ -51,12 +51,13 @@ const useLogin = (): useLoginResult => {
         const accessToken = hash.split("&")[0].split("=")[1];
         if (accessToken) {
           dispatch(authenticateUser(accessToken));
+          localStorage.setItem("accessToken", accessToken);
           clearInterval(checkPopup);
           console.log("accessToken=", accessToken);
           navigate("/home");
           popup.close();
         } else {
-          dispatch(denyAccess());
+          //   dispatch(denyAccess());
         }
       }
     }, 1000);
