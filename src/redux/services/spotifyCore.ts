@@ -1,4 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  createApi,
+  fetchBaseQuery,
+  BaseQueryApi,
+} from "@reduxjs/toolkit/query/react";
 import { UserAuthState } from "../feature/userAuth";
 
 type AccessToken = string;
@@ -46,11 +50,11 @@ export const spotifyApi = createApi({
   }),
   endpoints: (builder) => ({
     getTopTracks: builder.query<any, { limit?: number }>({
-      query: ({ limit = 12 }) =>
-        `me/top/tracks?time_range=medium_term&limit=${limit}`,
+      query: ({ limit = 100 }) =>
+        `me/top/tracks?time_range=long_term&limit=${limit}`,
     }),
-    getTopArtists: builder.query<SpotifyArtist[], void>({
-      query: () => "me/top/artists",
+    getTopArtists: builder.query<any, void>({
+      query: () => "me/top/artists?time_range=long_term",
     }),
     getPlaylists: builder.query<SpotifyPlaylist[], void>({
       query: () => "me/playlists",
@@ -66,7 +70,13 @@ export const spotifyApi = createApi({
       { seedType?: SeedType; seed?: string }
     >({
       query: ({ seedType = "seed_genres", seed = "pop,rock" }) =>
-        `https://api.spotify.com/v1/recommendations?limit=10&${seedType}=${seed}`,
+        `recommendations?limit=20&${seedType}=${seed}`,
+    }),
+    getNewReleases: builder.query<any, { limit?: number }>({
+      query: ({ limit = 10 }) => `browse/new-releases?limit=5`,
+    }),
+    getAlbumTracks: builder.query<any, string>({
+      query: (albumId) => `albums/${albumId}/tracks?limit=1`,
     }),
     search: builder.query<SpotifySearchResult, string>({
       query: (searchTerm) =>
@@ -83,4 +93,6 @@ export const {
   useSearchQuery,
   useGetRecentlyPlayedTracksQuery,
   useGetRecommendedTracksQuery,
+  useGetNewReleasesQuery,
+  useGetAlbumTracksQuery,
 } = spotifyApi;
