@@ -1,26 +1,42 @@
-import { Grid } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import { ComponentType, ReactNode } from "react";
 import Sidebar from "./Sidebar";
-import TopCharts from "./TopCharts";
+import TopCharts from "./RightSidebar";
+import RightSidebar from "./RightSidebar";
 
 interface LayoutProps {
   children: ReactNode;
 }
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <Grid container sx={{ minHeight: "99vh", position: "relative" }}>
-      <Grid item xs={3} sx={{ position: "fixed", minWidth: "200px" }}>
+    <Stack
+      direction={"row"}
+      sx={{
+        position: "relative",
+        flexWrap: "wrap",
+        background: "linear-gradient(to bottom right, #001029, #134c88)",
+      }}
+      id="kir"
+    >
+      <Box sx={{ position: "fixed", width: "15%", minWidth: "200px" }}>
         <Sidebar />
-      </Grid>
-      <Grid container item xs={10} sx={{ ml: 35 }}>
-        <Grid item xs={7}>
-          {children}
-        </Grid>
-        <Grid item xs={4}>
-          <TopCharts />
-        </Grid>
-      </Grid>
-    </Grid>
+      </Box>
+      <Box sx={{ px: 40, maxWidth: "70%" }} id="gheng">
+        {children}
+      </Box>
+
+      <Box
+        sx={{
+          position: "fixed",
+          right: 0,
+          width: "20%",
+          minWidth: "250px",
+          boxSizing: "border-box",
+        }}
+      >
+        <RightSidebar />
+      </Box>
+    </Stack>
   );
 };
 
