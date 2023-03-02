@@ -1,6 +1,7 @@
 import { Stack } from "@mui/material";
 import React from "react";
 import SongCard from "./SongCard";
+import { getAllArtists } from "../utils";
 
 interface SongsFeedProps {
   songs: any;
@@ -18,7 +19,7 @@ const SongsFeed = ({ songs, category }: SongsFeedProps) => {
         flexDirection: "row",
         gap: 2,
         flexWrap: "wrap",
-        justifyContent: "center",
+        justifyContent: "start",
         pt: 10,
       }}
       id="root songs feed"
@@ -27,7 +28,7 @@ const SongsFeed = ({ songs, category }: SongsFeedProps) => {
         return (
           <SongCard
             songName={song?.name}
-            artist={listOfArtists(song?.artists)}
+            artist={getAllArtists(song?.artists)}
             imageUrl={song?.album.images[1]?.url}
             key={song?.id}
           />
@@ -35,12 +36,6 @@ const SongsFeed = ({ songs, category }: SongsFeedProps) => {
       })}
     </Stack>
   );
-};
-
-const listOfArtists = (data: any) => {
-  const artistList = data.map((artist: any) => artist?.name);
-  const artistNames: string = artistList.join();
-  return artistNames;
 };
 
 export default SongsFeed;
