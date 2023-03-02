@@ -45,29 +45,41 @@ const Sidebar = () => {
         }
       >
         <Stack sx={{ "&>*:hover *": { color: "#7a9cd2" }, gap: 3 }}>
-          <ListItemButton>
+          <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
             <ListItemIcon>
-              <HomeOutlined />
+              <HomeOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
-            <ListItemText primary="Discover" />
+            <ListItemText
+              primary="Home"
+              sx={{ transform: "translateY(3px)" }}
+            />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
-              <SettingsOverscanOutlined />
+              <SettingsOverscanOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
-            <ListItemText primary="Around You" />
+            <ListItemText
+              primary="Discover"
+              sx={{ transform: "translateY(3px)" }}
+            />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
-              <StarBorderPurple500Outlined />
+              <StarBorderPurple500Outlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
-            <ListItemText primary="Top Artists" />
+            <ListItemText
+              primary="Search"
+              sx={{ transform: "translateY(3px)" }}
+            />
           </ListItemButton>
           <ListItemButton>
             <ListItemIcon>
-              <TagOutlined />
+              <TagOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
-            <ListItemText primary="Top Charts" />
+            <ListItemText
+              primary="Top Charts"
+              sx={{ transform: "translateY(3px)" }}
+            />
           </ListItemButton>
         </Stack>
       </List>
