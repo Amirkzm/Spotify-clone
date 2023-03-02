@@ -24,8 +24,9 @@ const SongCard = (props: SongCardProps) => {
         pt: 0,
         flex: "0 1 auto",
         position: "relative",
-        bgcolor: "blue",
         borderRadius: "5%",
+        bgcolor: "transparent",
+        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
       }}
     >
       {/* <CardActionArea> */}
@@ -36,20 +37,7 @@ const SongCard = (props: SongCardProps) => {
         alt="album photo"
         sx={{ objectFit: "contain", mt: 3 }}
       />
-      <CardContent
-        sx={
-          {
-            // whiteSpace: "nowrap",
-            // overflow: "hidden",
-            // textOverflow: "ellipsis",
-            // display: "-webkit-box",
-            // WebkitLineClamp: "9",
-            // // WebkitBoxOrient: "vertical",
-            // maxWidth: "65%",
-          }
-        }
-        id="kirekhar"
-      >
+      <CardContent>
         <Typography
           gutterBottom
           variant="body1"
