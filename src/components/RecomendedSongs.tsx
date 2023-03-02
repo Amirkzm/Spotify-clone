@@ -18,7 +18,7 @@ const RecomendedSongs = () => {
   }
   return (
     <Stack>
-      <Typography variant="h2" sx={{ alignSelf: "center", mt: 5 }}>
+      <Typography variant="h2" sx={{ alignSelf: "start", mt: 5 }}>
         Recommended For You
       </Typography>
       <SongsFeed songs={RecomendedSongs?.tracks} />;
