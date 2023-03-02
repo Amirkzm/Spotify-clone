@@ -5,3 +5,5 @@ export { useGetPlaylistTracksQuery } from "./spotifyCore";
 export { useSearchQuery } from "./spotifyCore";
 export { useGetRecentlyPlayedTracksQuery } from "./spotifyCore";
 export { useGetRecommendedTracksQuery } from "./spotifyCore";
+export { useGetNewReleasesQuery } from "./spotifyCore";
+export { useGetAlbumTracksQuery } from "./spotifyCore";
