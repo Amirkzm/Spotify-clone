@@ -18,7 +18,9 @@ const TopArtists = () => {
       <Typography>Your Top artists</Typography>
       <Stack direction="row" gap={2} sx={{ flexWrap: "wrap" }}>
         {data?.items.map((artist: any) => {
-          return <ArtistItem imageUrl={artist?.images[1].url} />;
+          return (
+            <ArtistItem key={artist.id} imageUrl={artist?.images[1].url} />
+          );
         })}
       </Stack>
     </Box>
