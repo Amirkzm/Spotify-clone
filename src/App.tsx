@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
-import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
+import { Discover, Home, Login, Search } from "./pages";
 
 function App() {
   return (
@@ -9,9 +8,9 @@ function App() {
       <Box sx={{ backgroundColor: "common.black" }}>
         <Routes>
           <Route path="/" element={<Login />} />
-          {/* <Route path="/video/:id" element={<VideoDetails />} />
-            <Route path="/channel/:id" element={<ChannelDetails />} />
-            <Route path="/search/:searchTerm" element={<SearchFeed />} /> */}
+          <Route path="/home" element={<Home />} />
+          <Route path="/discover" element={<Discover />} />
+          <Route path="/search/" element={<Search />} />
         </Routes>
       </Box>
     </BrowserRouter>
