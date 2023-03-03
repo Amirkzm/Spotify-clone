@@ -5,31 +5,6 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { UserAuthState } from "../feature/userAuth";
 
-type AccessToken = string;
-
-interface AuthState {
-  accessToken: AccessToken | null;
-  // ... other fields
-}
-
-interface SpotifyTrack {
-  // ... track properties
-}
-
-interface SpotifyArtist {
-  // ... artist properties
-  name: string;
-  items: any[];
-}
-
-interface SpotifyPlaylist {
-  // ... playlist properties
-}
-
-interface SpotifySearchResult {
-  // ... search result properties
-}
-
 type SeedType = "seed_artists" | "seed_genres" | "seed_tracks";
 
 export const spotifyApi = createApi({
@@ -56,10 +31,10 @@ export const spotifyApi = createApi({
     getTopArtists: builder.query<any, void>({
       query: () => "me/top/artists?time_range=long_term",
     }),
-    getPlaylists: builder.query<SpotifyPlaylist[], void>({
+    getPlaylists: builder.query<any[], void>({
       query: () => "me/playlists",
     }),
-    getPlaylistTracks: builder.query<SpotifyTrack[], string>({
+    getPlaylistTracks: builder.query<any[], string>({
       query: (playlistId) => `playlists/${playlistId}/tracks`,
     }),
     getRecentlyPlayedTracks: builder.query<any, void>({
@@ -67,20 +42,29 @@ export const spotifyApi = createApi({
     }),
     getRecommendedTracks: builder.query<
       any,
-      { seedType?: SeedType; seed?: string }
+      { seedType?: SeedType; seed?: string; limit?: number }
     >({
-      query: ({ seedType = "seed_genres", seed = "pop,rock" }) =>
-        `recommendations?limit=20&${seedType}=${seed}`,
+      query: ({
+        seedType = "seed_genres",
+        seed = "pop,rock,hip-hop,dance",
+        limit = 12,
+      }) => `recommendations?limit=${limit}&${seedType}=${seed}`,
     }),
     getNewReleases: builder.query<any, { limit?: number }>({
-      query: ({ limit = 10 }) => `browse/new-releases?limit=5`,
+      query: ({ limit = 5 }) => `browse/new-releases?limit=${limit}`,
     }),
     getAlbumTracks: builder.query<any, string>({
       query: (albumId) => `albums/${albumId}/tracks?limit=1`,
     }),
-    search: builder.query<SpotifySearchResult, string>({
-      query: (searchTerm) =>
-        `search?type=track,artist&q=${encodeURIComponent(searchTerm)}`,
+    search: builder.query<any, string>({
+      query: (searchTerm) => {
+        if (searchTerm === "") {
+          return "";
+        }
+        return `search?type=track,album,playlist&limit=10&q=${encodeURIComponent(
+          searchTerm
+        )}`;
+      },
     }),
   }),
 });
@@ -95,4 +79,5 @@ export const {
   useGetRecommendedTracksQuery,
   useGetNewReleasesQuery,
   useGetAlbumTracksQuery,
+  // useGetRecentSearchQuery,
 } = spotifyApi;
