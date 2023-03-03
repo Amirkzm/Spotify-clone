@@ -14,8 +14,14 @@ import {
   StarBorderPurple500Outlined,
   TagOutlined,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const handleChangeNavigation = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <Box>
       <List
@@ -45,7 +51,10 @@ const Sidebar = () => {
         }
       >
         <Stack sx={{ "&>*:hover *": { color: "#7a9cd2" }, gap: 3 }}>
-          <ListItemButton sx={{ display: "flex", alignItems: "center" }}>
+          <ListItemButton
+            sx={{ display: "flex", alignItems: "center" }}
+            onClick={() => handleChangeNavigation("/home")}
+          >
             <ListItemIcon>
               <HomeOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
@@ -54,7 +63,7 @@ const Sidebar = () => {
               sx={{ transform: "translateY(3px)" }}
             />
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleChangeNavigation("/discover")}>
             <ListItemIcon>
               <SettingsOverscanOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
@@ -63,7 +72,7 @@ const Sidebar = () => {
               sx={{ transform: "translateY(3px)" }}
             />
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleChangeNavigation("/search")}>
             <ListItemIcon>
               <StarBorderPurple500Outlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
@@ -72,7 +81,7 @@ const Sidebar = () => {
               sx={{ transform: "translateY(3px)" }}
             />
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton onClick={() => handleChangeNavigation("/home")}>
             <ListItemIcon>
               <TagOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
