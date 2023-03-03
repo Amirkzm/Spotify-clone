@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 
 interface SongCardProps {
-  songName: string;
+  name: string;
   artist: string;
   imageUrl: string;
 }
 
 const SongCard = (props: SongCardProps) => {
-  const { songName, artist, imageUrl } = props;
+  const { name, artist, imageUrl } = props;
   return (
     <Stack
       sx={{
@@ -49,7 +49,7 @@ const SongCard = (props: SongCardProps) => {
             textOverflow: "ellipsis",
           }}
         >
-          {songName}
+          {name}
         </Typography>
         <Typography
           variant="body1"
