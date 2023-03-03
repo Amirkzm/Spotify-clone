@@ -21,7 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Box sx={{ position: "fixed", width: "15%", minWidth: "200px" }}>
         <Sidebar />
       </Box>
-      <Box sx={{ px: 40, maxWidth: "70%" }} id="gheng">
+      <Box sx={{ px: 40, maxWidth: "70%", minHeight: "100vh" }} id="gheng">
         {children}
       </Box>
 
@@ -30,7 +30,7 @@ const Layout = ({ children }: LayoutProps) => {
           position: "fixed",
           right: 0,
           width: "20%",
-          minWidth: "250px",
+          minWidth: "300px",
           boxSizing: "border-box",
         }}
       >
