@@ -12,7 +12,7 @@ interface SongType {
   name: string;
 }
 
-const SongsFeed = ({ songs, category }: SongsFeedProps) => {
+const SongsFeed = ({ songs, category = "track" }: SongsFeedProps) => {
   return (
     <Stack
       sx={{
@@ -27,10 +27,10 @@ const SongsFeed = ({ songs, category }: SongsFeedProps) => {
       {songs.map((song: any, index: number) => {
         return (
           <SongCard
-            songName={song?.name}
+            name={song?.name}
             artist={getAllArtists(song?.artists)}
-            imageUrl={song?.album.images[1]?.url}
-            key={song?.id}
+            imageUrl={song?.album?.images[1]?.url}
+            key={index}
           />
         );
       })}
