@@ -1,16 +1,21 @@
-export const genres = [
-  { title: "Pop", value: "POP" },
-  { title: "Hip-Hop", value: "HIP_HOP_RAP" },
-  { title: "Dance", value: "DANCE" },
-  { title: "Electronic", value: "ELECTRONIC" },
-  { title: "Soul", value: "SOUL_RNB" },
-  { title: "Alternative", value: "ALTERNATIVE" },
-  { title: "Rock", value: "ROCK" },
-  { title: "Latin", value: "LATIN" },
-  { title: "Film", value: "FILM_TV" },
-  { title: "Country", value: "COUNTRY" },
-  { title: "Worldwide", value: "WORLDWIDE" },
-  { title: "Reggae", value: "REGGAE_DANCE_HALL" },
-  { title: "House", value: "HOUSE" },
-  { title: "K-Pop", value: "K_POP" },
+export interface genresType {
+  title: string;
+  value: string;
+}
+
+export const genres: genresType[] = [
+  { value: "pop", title: "POP" },
+  { value: "hip-Hop", title: "HIP_HOP_RAP" },
+  { value: "dance", title: "DANCE" },
+  { value: "electronic", title: "ELECTRONIC" },
+  { value: "soul", title: "SOUL_RNB" },
+  { value: "alternative", title: "ALTERNATIVE" },
+  { value: "rock", title: "ROCK" },
+  { value: "latin", title: "LATIN" },
+  { value: "film", title: "FILM_TV" },
+  { value: "country", title: "COUNTRY" },
+  { value: "worldwide", title: "WORLDWIDE" },
+  { value: "reggae", title: "REGGAE_DANCE_HALL" },
+  { value: "house", title: "HOUSE" },
+  { value: "k-Pop", title: "K_POP" },
 ];
