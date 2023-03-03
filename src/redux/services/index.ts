@@ -7,3 +7,4 @@ export { useGetRecentlyPlayedTracksQuery } from "./spotifyCore";
 export { useGetRecommendedTracksQuery } from "./spotifyCore";
 export { useGetNewReleasesQuery } from "./spotifyCore";
 export { useGetAlbumTracksQuery } from "./spotifyCore";
+// export { useGetRecentSearchQuery } from "./spotifyCore";
