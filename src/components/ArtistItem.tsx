@@ -6,7 +6,6 @@ interface ArtistItemProps {
 
 const ArtistItem = (props: ArtistItemProps) => {
   const { imageUrl } = props;
-  console.log(imageUrl);
 
   return (
     <CardMedia
@@ -14,7 +13,7 @@ const ArtistItem = (props: ArtistItemProps) => {
       height="100px"
       image={imageUrl}
       alt="album photo"
-      sx={{ objectFit: "contain", mt: 3, width: "100px", borderRadius: "50%" }}
+      sx={{ objectFit: "cover", mt: 3, width: "100px", borderRadius: "50%" }}
       id="kireasbeabi"
     />
   );
