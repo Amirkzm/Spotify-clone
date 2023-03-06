@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userAuthSlice } from "./feature";
+import itemSlice from "./feature/itemSlice";
 import { spotifyApi } from "./services/spotifyCore";
 
 const store = configureStore({
   reducer: {
     userAuth: userAuthSlice,
+    savedItem: itemSlice,
     [spotifyApi.reducerPath]: spotifyApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
