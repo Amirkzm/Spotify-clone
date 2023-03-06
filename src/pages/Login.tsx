@@ -19,7 +19,6 @@ const Login = () => {
   const { accessToken, accessGranted } = useSelector(
     (state: RootState) => state.userAuth
   );
-  // console.log(accessToken);
 
   const handleClose = () => {
     setOpen(false);
