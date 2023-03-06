@@ -13,7 +13,10 @@ import {
   SettingsOverscanOutlined,
   StarBorderPurple500Outlined,
   TagOutlined,
+  LibraryMusicOutlined,
+  SearchOutlined,
 } from "@mui/icons-material";
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -30,7 +33,6 @@ const Sidebar = () => {
           maxWidth: 360,
           bgcolor: "primary.dark",
           minHeight: "100vh",
-          // position: "fixed",
         }}
         component="nav"
         aria-labelledby="nested-list-subheader"
@@ -74,19 +76,19 @@ const Sidebar = () => {
           </ListItemButton>
           <ListItemButton onClick={() => handleChangeNavigation("/search")}>
             <ListItemIcon>
-              <StarBorderPurple500Outlined sx={{ fontSize: "26px" }} />
+              <SearchOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
             <ListItemText
               primary="Search"
               sx={{ transform: "translateY(3px)" }}
             />
           </ListItemButton>
-          <ListItemButton onClick={() => handleChangeNavigation("/home")}>
+          <ListItemButton onClick={() => handleChangeNavigation("/library")}>
             <ListItemIcon>
-              <TagOutlined sx={{ fontSize: "26px" }} />
+              <LibraryMusicOutlined sx={{ fontSize: "26px" }} />
             </ListItemIcon>
             <ListItemText
-              primary="Top Charts"
+              primary="User Library"
               sx={{ transform: "translateY(3px)" }}
             />
           </ListItemButton>
