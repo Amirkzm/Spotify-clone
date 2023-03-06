@@ -90,8 +90,11 @@ const Search = () => {
     componentToRender = (
       <Stack>
         <Typography variant="h2" sx={{ mt: 10 }}>
-          Don&apos;t know what to listen? We have some suggestions for you
+          Don&apos;t know what to listen?
+          <br />
+          We have some suggestions for you
         </Typography>
+        {/* <Typography variant="h2">We have some suggestions for you</Typography> */}
         <SongsFeed songs={recommendedData?.tracks} />
       </Stack>
     );
