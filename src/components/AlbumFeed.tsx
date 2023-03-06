@@ -1,7 +1,9 @@
 import { Stack } from "@mui/material";
-import React from "react";
 import SongCard from "./SongCard";
 import { getAllArtists } from "../utils";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addItme } from "../redux/feature/itemSlice";
 
 interface albumsFeedProps {
   albums: any;
@@ -9,6 +11,11 @@ interface albumsFeedProps {
 }
 
 const AlbumFeed = ({ albums, category = "track" }: albumsFeedProps) => {
+  const dispatch = useDispatch();
+
+  const albumClickHandler = (album: any) => {
+    dispatch(addItme(album));
+  };
   return (
     <Stack
       sx={{
@@ -22,12 +29,17 @@ const AlbumFeed = ({ albums, category = "track" }: albumsFeedProps) => {
     >
       {albums.map((album: any, index: number) => {
         return (
-          <SongCard
-            name={album?.name}
-            artist={getAllArtists(album?.artists)}
-            imageUrl={album?.images[1]?.url}
-            key={album?.id}
-          />
+          <Link
+            to={`album/${album.id}`}
+            key={album.id}
+            onClick={() => albumClickHandler(album)}
+          >
+            <SongCard
+              name={album?.name}
+              artist={getAllArtists(album?.artists)}
+              imageUrl={album?.images[1]?.url}
+            />
+          </Link>
         );
       })}
     </Stack>
