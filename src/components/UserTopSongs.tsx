@@ -10,11 +10,11 @@ const UserTopSongs = () => {
   } = useGetTopTracksQuery({ limit: 10 });
 
   if (isLoading) {
-    return <p>loading user's top songs</p>;
+    return <p>loading user&apos;s top songs</p>;
   }
 
   if (isError) {
-    return <p>error happend while loading user's tops songs</p>;
+    return <p>error happend while loading user&apos;s tops songs</p>;
   }
   return (
     <Stack>
