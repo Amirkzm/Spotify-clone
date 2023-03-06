@@ -28,16 +28,14 @@ const NewReleasesTrack = () => {
   return (
     <Stack sx={{}}>
       <Typography>New Releases</Typography>
-      {data?.albums?.items.map((album: any) => {
-        return (
-          <ReleaseItem
-            albumName={album?.name}
-            artist={getAllArtists(album?.artists)}
-            imageUrl={album?.images[1]?.url}
-            key={album?.id}
-          />
-        );
-      })}
+      {data?.albums?.items.map((album: any) => (
+        <ReleaseItem
+          albumName={album?.name}
+          artist={getAllArtists(album?.artists)}
+          imageUrl={album?.images[1]?.url}
+          key={album?.id}
+        />
+      ))}
     </Stack>
   );
 };
