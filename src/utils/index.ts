@@ -1,4 +1,9 @@
 export { genres } from "./constants";
-export type { genresType } from "./constants";
+export type { genresType, colorType } from "./constants";
+export { colors } from "./constants";
 export { default as theme } from "./theme";
-export { getAllArtists } from "./utilFunctions";
+export {
+  getAllArtists,
+  extractItemProperties,
+  formatDuration,
+} from "./utilFunctions";
