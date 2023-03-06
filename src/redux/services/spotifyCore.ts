@@ -28,6 +28,12 @@ export const spotifyApi = createApi({
       query: ({ limit = 100 }) =>
         `me/top/tracks?time_range=long_term&limit=${limit}`,
     }),
+    getArtistTopTracks: builder.query<
+      any,
+      { artistId: string; limit?: number }
+    >({
+      query: ({ artistId }) => `artists/${artistId}/top-tracks`,
+    }),
     getTopArtists: builder.query<any, void>({
       query: () => "me/top/artists?time_range=long_term",
     }),
@@ -53,8 +59,11 @@ export const spotifyApi = createApi({
     getNewReleases: builder.query<any, { limit?: number }>({
       query: ({ limit = 5 }) => `browse/new-releases?limit=${limit}`,
     }),
-    getAlbumTracks: builder.query<any, string>({
-      query: (albumId) => `albums/${albumId}/tracks?limit=1`,
+    getAlbumTracks: builder.query<any, string | undefined>({
+      query: (albumId) => `albums/${albumId}/tracks`,
+    }),
+    getAlbum: builder.query<any, string | undefined>({
+      query: (albumId) => `albums/${albumId}`,
     }),
     search: builder.query<any, string>({
       query: (searchTerm) => {
@@ -66,11 +75,18 @@ export const spotifyApi = createApi({
         )}`;
       },
     }),
+    getSavedTracks: builder.query<any, { limit?: number }>({
+      query: ({ limit = 10 }) => `me/tracks?limit=${limit}`,
+    }),
+    getSavedAlbums: builder.query<any, { limit?: number }>({
+      query: ({ limit = 10 }) => `me/albums?limit=${limit}`,
+    }),
   }),
 });
 
 export const {
   useGetTopTracksQuery,
+  useGetArtistTopTracksQuery,
   useGetTopArtistsQuery,
   useGetPlaylistsQuery,
   useGetPlaylistTracksQuery,
@@ -79,5 +95,7 @@ export const {
   useGetRecommendedTracksQuery,
   useGetNewReleasesQuery,
   useGetAlbumTracksQuery,
-  // useGetRecentSearchQuery,
+  useGetSavedTracksQuery,
+  useGetSavedAlbumsQuery,
+  useGetAlbumQuery,
 } = spotifyApi;
