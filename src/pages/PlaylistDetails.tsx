@@ -1,32 +1,47 @@
-import { Box, CardMedia, Stack, Typography } from "@mui/material";
-import { ShowMore } from "../components";
+import { Box, CardMedia, List, Stack, Typography } from "@mui/material";
+import { Layout, ShowMore } from "../components";
 import PopularTrackItem from "../components/PopularTrackItem";
 import { extractItemProperties, formatDuration, theme } from "../utils";
 
 import useImageColor from "../hooks/useImageColor";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import PlayButton from "../components/PlayButton";
+import { useParams } from "react-router-dom";
+import { useGetPlaylistTracksQuery } from "../redux";
 
 const PlaylistDetails = () => {
+  const { playlistId } = useParams();
   const playlistItem = useSelector((state: RootState) => state.savedItem.item);
+  console.log(playlistItem);
+  const {
+    data: playlistTracks,
+    isLoading,
+    isError,
+  } = useGetPlaylistTracksQuery(playlistId);
 
-  const { imageUrl, playlistName, playlistTracks } = extractItemProperties({
+  const { imageUrl, playlistName } = extractItemProperties({
     item: playlistItem,
     itemType: "playlist",
   });
+  console.log("imageurl is = ", imageUrl);
   const heroBackground = useImageColor(imageUrl);
+  if (isLoading || isError) {
+    return <p>loading or error</p>;
+  }
 
   return (
-    <Stack sx={{ minWidth: "100vh" }}>
-      <Box
-        component="section"
-        sx={{
-          display: "flex",
-          background: `${heroBackground}`,
-          minWidth: "500px",
-        }}
-      >
-        <Box>
+    <Layout showRightSidebar>
+      <Stack sx={{ flex: "1 1 auto" }} id="topstackkos">
+        <Box
+          component="section"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            background: `${heroBackground}`,
+            p: 2,
+          }}
+        >
           <CardMedia
             component="img"
             height="240"
@@ -34,35 +49,58 @@ const PlaylistDetails = () => {
             alt="album photo"
             sx={{
               objectFit: "contain",
-              mt: 3,
+              m: 3,
               width: "240px",
-              boxShadow: "0px 4px 8px rgba(0,0,0,0.8)",
+              boxShadow: "0px 4px 50px rgba(0,0,0,0.9)",
             }}
           />
+          <Stack>
+            <Typography>Playlist</Typography>
+            <Typography
+              variant="h1"
+              sx={{ fontSize: "clamp(48px,5vw+1rem,58px)" }}
+            >
+              {playlistName}
+            </Typography>
+          </Stack>
         </Box>
-        <Box>
-          <Typography>Album</Typography>
-          <Typography variant="h1" sx={{ fontSize: "clamp(48px,5vw,58px)" }}>
-            {playlistName}
-          </Typography>
-          <Typography variant="caption"></Typography>
-        </Box>
-      </Box>
-      <Stack
-        sx={{
-          background: `linear-gradient(to left, #134c88,${heroBackground} )`,
-        }}
-      >
-        <Stack direction={"row"}></Stack>
-        <ShowMore minHeight={500}>
-          <Box component="section">
-            {playlistTracks.map((item: any) => (
-              <PopularTrackItem key={item?.id} trackItem={item} />
-            ))}
+        <Stack
+          sx={{
+            background: `linear-gradient(to bottom, ${heroBackground},#134c88 )`,
+            width: "100%",
+            flex: "1 1 auto",
+            pt: 10,
+          }}
+          id="bottom part container"
+        >
+          <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
+            <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
-        </ShowMore>
+          <Typography variant="h3" sx={{ pl: 4 }}>
+            Title
+          </Typography>
+          <Box
+            sx={{
+              width: "95%",
+              height: "1px",
+              bgcolor: "rgba(255,255,255,0.2)",
+              alignSelf: "center",
+              ml: 3,
+            }}
+          ></Box>
+          <ShowMore minHeight={380}>
+            <List component="ol" sx={{ minWidth: "100%" }} id="kirehendi">
+              {playlistTracks?.items?.map((item: any) => (
+                <PopularTrackItem
+                  key={item?.track?.id}
+                  trackItem={item?.track}
+                />
+              ))}
+            </List>
+          </ShowMore>
+        </Stack>
       </Stack>
-    </Stack>
+    </Layout>
   );
 };
 
