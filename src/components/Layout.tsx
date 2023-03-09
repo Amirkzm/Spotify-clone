@@ -6,8 +6,9 @@ import RightSidebar from "./RightSidebar";
 
 interface LayoutProps {
   children: ReactNode;
+  showRightSidebar?: boolean;
 }
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, showRightSidebar }: LayoutProps) => {
   return (
     <Stack
       direction={"row"}
@@ -18,10 +19,20 @@ const Layout = ({ children }: LayoutProps) => {
       }}
       id="kir"
     >
-      <Box sx={{ position: "fixed", width: "15%", minWidth: "200px" }}>
+      <Box sx={{ position: "fixed", maxWidth: "15%", minWidth: "200px" }}>
         <Sidebar />
       </Box>
-      <Box sx={{ px: 40, maxWidth: "70%", minHeight: "100vh" }} id="gheng">
+      <Box
+        sx={{
+          ml: !showRightSidebar ? 40 : 25,
+          mr: !showRightSidebar ? 40 : 0,
+          maxWidth: !showRightSidebar ? "70%" : "1500px",
+          minHeight: "100vh",
+          flex: "1 1 auto",
+          display: "flex",
+        }}
+        id="main layout section"
+      >
         {children}
       </Box>
 
@@ -32,6 +43,7 @@ const Layout = ({ children }: LayoutProps) => {
           width: "20%",
           minWidth: "300px",
           boxSizing: "border-box",
+          display: !showRightSidebar ? "block" : "none",
         }}
       >
         <RightSidebar />
