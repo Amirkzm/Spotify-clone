@@ -38,17 +38,16 @@ const ShowMore = (props: ShowMoreProps) => {
   }, [childrenHeight, minHeight]);
 
   return (
-    <Stack
-      sx={{
-        alignItems: "flex-start",
-      }}
-    >
+    <Stack id="showMore">
       {showCollapse && (
         <>
           <Collapse in={showMore} collapsedSize={minHeight}>
             <div ref={measureRef}>{children}</div>
           </Collapse>
-          <Button onClick={() => setShowMore((prev) => !prev)}>
+          <Button
+            onClick={() => setShowMore((prev) => !prev)}
+            sx={{ alignSelf: "start", ml: 4, color: "red" }}
+          >
             {showMore ? "Show less" : "Show more"}
           </Button>
         </>
