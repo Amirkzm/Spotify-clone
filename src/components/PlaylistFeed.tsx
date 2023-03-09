@@ -6,13 +6,13 @@ import SongCard from "./SongCard";
 
 interface PlaylistFeedProps {
   playlists: any;
-  category?: string;
 }
-const AlbumFeed = ({ playlists, category = "track" }: PlaylistFeedProps) => {
+const PlaylistFeed = ({ playlists }: PlaylistFeedProps) => {
   const dispatch = useDispatch();
   const playlistClickHandler = (playlist: any) => {
     dispatch(addItme(playlist));
   };
+  console.log(playlists);
   return (
     <Stack
       sx={{
@@ -26,14 +26,14 @@ const AlbumFeed = ({ playlists, category = "track" }: PlaylistFeedProps) => {
     >
       {playlists.map((playlist: any, index: number) => (
         <Link
-          to={"sdalk"}
-          key={playlist?.id}
-          onClick={(playlist) => playlistClickHandler}
+          to={`/playlist/${playlist?.id}`}
+          key={playlist?.id + index}
+          onClick={() => playlistClickHandler(playlist)}
         >
           <SongCard
             name={playlist?.name}
             artist={playlist?.owner?.display_name}
-            imageUrl={playlist?.images[1]?.url}
+            imageUrl={playlist?.images[1]?.url ?? playlist?.images[0]?.url}
             key={playlist?.id}
           />
         </Link>
@@ -42,4 +42,4 @@ const AlbumFeed = ({ playlists, category = "track" }: PlaylistFeedProps) => {
   );
 };
 
-export default AlbumFeed;
+export default PlaylistFeed;
