@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
-import { useGetRecommendedTracksQuery, useSearchQuery } from "../redux";
+import { useGetRecommendationQuery, useSearchQuery } from "../redux";
 import { AlbumFeed, Layout, PlaylistFeed, SongsFeed } from "../components";
 
 const Search = () => {
@@ -18,7 +18,7 @@ const Search = () => {
     data: recommendedData,
     isLoading: isRecommendedLoading,
     isError: isRecommendedError,
-  } = useGetRecommendedTracksQuery({
+  } = useGetRecommendationQuery({
     limit: 15,
   });
   const {
