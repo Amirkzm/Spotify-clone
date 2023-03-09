@@ -6,3 +6,5 @@ export { default as Library } from "./Library";
 export { default as AlbumDetails } from "./AlbumDetails";
 export { default as PlaylistDetails } from "./PlaylistDetails";
 export { default as TrackDetails } from "./TrackDetails";
+export { default as UserLibrary } from "./UserLibrary";
+export { default as ArtistDetails } from "./ArtistDetails";
