@@ -10,13 +10,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Layout, SongsFeed } from "../components";
-import { useGetRecommendedTracksQuery } from "../redux";
+import { useGetRecommendationQuery } from "../redux";
 import { genresType } from "../utils";
 import { genres } from "../utils";
 
 const Discover = () => {
   const [genre, setGenre] = useState<string>("pop");
-  const { data, isLoading, isError } = useGetRecommendedTracksQuery({
+  const { data, isLoading, isError } = useGetRecommendationQuery({
     seed: genre,
   });
 
