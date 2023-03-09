@@ -34,9 +34,9 @@ const SongsFeed = ({ songs, category = "track" }: SongsFeedProps) => {
     >
       {songs.map((song: any, index: number) => (
         <Link
-          to={`track/${song?.id}`}
+          to={`/track/${song?.id}`}
           key={song?.id}
-          onClick={(song) => trackClickHandler}
+          onClick={() => trackClickHandler(song)}
         >
           <SongCard
             name={song?.name}
