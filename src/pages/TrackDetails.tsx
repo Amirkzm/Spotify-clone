@@ -1,6 +1,6 @@
 import { Box, CardMedia, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { ShowMore } from "../components";
+import { Layout, ShowMore } from "../components";
 import PopularTrackItem from "../components/PopularTrackItem";
 import { useGetArtistTopTracksQuery } from "../redux";
 import { extractItemProperties, formatDuration, theme } from "../utils";
@@ -8,8 +8,11 @@ import { extractItemProperties, formatDuration, theme } from "../utils";
 import useImageColor from "../hooks/useImageColor";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import PlayButton from "../components/PlayButton";
+import { useParams } from "react-router-dom";
 
 const TrackDetails = () => {
+  const { trackId } = useParams();
   const trackItem = useSelector((state: RootState) => state.savedItem.item);
   const {
     imageUrl,
@@ -36,58 +39,82 @@ const TrackDetails = () => {
   const releaseYear: string = releaseDate.split("-")[0];
 
   return (
-    <Stack sx={{ minWidth: "100vh" }}>
-      <Box
-        component="section"
-        sx={{
-          display: "flex",
-          background: `${heroBackground}`,
-          minWidth: "500px",
-        }}
-      >
-        <Box>
-          <CardMedia
-            component="img"
-            height="240"
-            image={imageUrl}
-            alt="album photo"
-            sx={{
-              objectFit: "contain",
-              mt: 3,
-              width: "240px",
-              boxShadow: "0px 4px 8px rgba(0,0,0,0.8)",
-            }}
-          />
-        </Box>
-        <Box>
-          <Typography>Song</Typography>
-          <Typography variant="h1" sx={{ fontSize: "clamp(48px,5vw,58px)" }}>
-            {songName}
-          </Typography>
-          <Typography variant="caption">
-            {artistsName}
-            {"."}
-            {releaseYear}
-            {"."}
-            {formatDuration(trackDuration)}
-          </Typography>
-        </Box>
-      </Box>
-      <Stack
-        sx={{
-          background: `linear-gradient(to left, #134c88,${heroBackground} )`,
-        }}
-      >
-        <Stack direction={"row"}></Stack>
-        <ShowMore minHeight={500}>
-          <Box component="section">
-            {topTracksData?.items.map((item: any) => (
-              <PopularTrackItem key={item?.id} trackItem={item} />
-            ))}
+    <Layout showRightSidebar>
+      <Stack sx={{ flex: "1 1 auto" }}>
+        <Box
+          component="section"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            background: `${heroBackground}`,
+            p: 2,
+            gap: 2,
+          }}
+        >
+          <Box>
+            <CardMedia
+              component="img"
+              height="240"
+              image={imageUrl}
+              alt="album photo"
+              sx={{
+                objectFit: "contain",
+                mt: 3,
+                width: "240px",
+                boxShadow: "0px 4px 8px rgba(0,0,0,0.8)",
+              }}
+            />
           </Box>
-        </ShowMore>
+          <Stack sx={{ gap: 1 }}>
+            <Typography>Track</Typography>
+            <Typography
+              variant="h1"
+              sx={{ "&": { fontSize: "clamp(38px,5vw,45px)" } }}
+            >
+              {songName}
+            </Typography>
+            <Typography variant="body1">
+              {artistsName}
+              {"."}
+              {releaseYear}
+              {"."}
+              {formatDuration(trackDuration)}
+            </Typography>
+          </Stack>
+        </Box>
+        <Stack
+          sx={{
+            background: `linear-gradient(to bottom, ${heroBackground},#134c88 )`,
+            width: "100%",
+            flex: "1 1 auto",
+            pt: 10,
+          }}
+        >
+          <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
+            <PlayButton sx={{ fontSize: "45px" }} />
+          </Box>
+          <Typography variant="h3" sx={{ pl: 4 }}>
+            Title
+          </Typography>
+          <Box
+            sx={{
+              width: "95%",
+              height: "1px",
+              bgcolor: "rgba(255,255,255,0.2)",
+              alignSelf: "center",
+              ml: 3,
+            }}
+          ></Box>
+          <ShowMore minHeight={500}>
+            <Box component="section">
+              {topTracksData?.tracks.map((item: any) => (
+                <PopularTrackItem key={item?.id} trackItem={item} />
+              ))}
+            </Box>
+          </ShowMore>
+        </Stack>
       </Stack>
-    </Stack>
+    </Layout>
   );
 };
 
