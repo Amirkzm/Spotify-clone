@@ -30,7 +30,7 @@ const AlbumFeed = ({ albums, category = "track" }: albumsFeedProps) => {
       {albums.map((album: any, index: number) => {
         return (
           <Link
-            to={`album/${album.id}`}
+            to={`/album/${album.id}`}
             key={album.id}
             onClick={() => albumClickHandler(album)}
           >
