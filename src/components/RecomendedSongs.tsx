@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import { useGetRecommendedTracksQuery } from "../redux";
+import { useGetRecommendationQuery } from "../redux";
 import SongsFeed from "./SongsFeed";
 
 const RecomendedSongs = () => {
@@ -7,7 +7,7 @@ const RecomendedSongs = () => {
     data: RecomendedSongs,
     isLoading,
     isError,
-  } = useGetRecommendedTracksQuery({});
+  } = useGetRecommendationQuery({});
 
   if (isLoading) {
     return <p>loading Recomended Songs for you</p>;
