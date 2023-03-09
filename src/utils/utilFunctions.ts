@@ -13,7 +13,7 @@ export function formatDuration(durationMs: number): string {
 
 interface ExtractItemPropertiesProps {
   item: any;
-  itemType: "playlist" | "track" | "album";
+  itemType: "playlist" | "track" | "album" | "artist";
 }
 
 export const extractItemProperties = ({
@@ -33,7 +33,10 @@ export const extractItemProperties = ({
     releaseDate,
     trakcsPopularity,
     AlbumTracks,
-    playlistTracks;
+    playlistTracks,
+    followers,
+    artistGenres,
+    artistPopularity;
 
   console.log(item);
 
@@ -57,13 +60,20 @@ export const extractItemProperties = ({
       artistsName = getAllArtists(item?.artists);
       trackDuration = item?.duration_ms;
       trakcsPopularity = item?.popularity;
-      releaseDate = item?.release_date;
+      releaseDate = item?.album?.release_date;
       break;
     case "playlist":
       playlistName = item?.name;
       playlistId = item?.id;
-      imageUrl = item?.images[1]?.url;
+      imageUrl = item?.images[1]?.url ?? item?.images[0]?.url;
       playlistTracks = item?.tracks?.items;
+      break;
+    case "artist":
+      artistsName = item?.name;
+      artistGenres = item?.genres;
+      imageUrl = item?.images[0]?.url;
+      followers = item?.followers?.total;
+      artistPopularity = item?.popularity;
       break;
     default:
       console.log("GG wp");
@@ -85,5 +95,8 @@ export const extractItemProperties = ({
     trakcsPopularity,
     AlbumTracks,
     playlistTracks,
+    followers,
+    artistGenres,
+    artistPopularity,
   };
 };
