@@ -31,10 +31,10 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
     >
       <Stack direction={"row"}>
         {show && (
-          <ListItemIcon sx={{ position: "absolute", top: "25%", left: "0" }}>
+          <ListItemIcon sx={{ position: "absolute", top: "5%", left: "-1%" }}>
             <PlayArrowIcon
               sx={{
-                fontSize: "35px",
+                fontSize: "48px",
                 "&:hover": { fill: "#f74336", cursor: "pointer" },
               }}
             />
@@ -52,6 +52,9 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
           </Box>
         </Box>
       </Stack>
+      <Typography variant="body1" sx={{ position: "absolute", left: "70%" }}>
+        {trackItem?.album?.release_date}
+      </Typography>
       <Typography variant="body1">
         {formatDuration(trackItem?.duration_ms)}
       </Typography>
