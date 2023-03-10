@@ -46,7 +46,12 @@ const ShowMore = (props: ShowMoreProps) => {
           </Collapse>
           <Button
             onClick={() => setShowMore((prev) => !prev)}
-            sx={{ alignSelf: "start", ml: 4, color: "red" }}
+            sx={{
+              alignSelf: "start",
+              ml: 4,
+              color: "primary.dark",
+              fontSize: "14px",
+            }}
           >
             {showMore ? "Show less" : "Show more"}
           </Button>
