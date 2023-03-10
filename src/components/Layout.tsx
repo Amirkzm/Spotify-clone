@@ -10,26 +10,77 @@ interface LayoutProps {
 }
 const Layout = ({ children, showRightSidebar }: LayoutProps) => {
   return (
-    <Stack
+    <Box>
+      <Box sx={{ position: "fixed", width: "20vw", minWidth: "15vw" }}>
+        <Sidebar />
+      </Box>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: `20vw ${
+            !showRightSidebar ? "50vw" : "80vw"
+          } minmax(25vw,30vw)`,
+          gridAutoFlow: "dense",
+        }}
+      >
+        <Box
+          sx={{
+            gridColumnStart: "2",
+            gridColumnEnd: "3",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {children}
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          width: "30vw",
+          display: !showRightSidebar ? "block" : "none",
+        }}
+      >
+        <RightSidebar />
+      </Box>
+    </Box>
+  );
+};
+
+export default Layout;
+
+/*<Stack
       direction={"row"}
       sx={{
         position: "relative",
         flexWrap: "wrap",
         background: "linear-gradient(to bottom right, #001029, #134c88)",
+        overFlowX: "hidden",
       }}
       id="kir"
     >
-      <Box sx={{ position: "fixed", maxWidth: "15%", minWidth: "200px" }}>
+      <Box
+        sx={{
+          position: "fixed",
+          maxWidth: "10vw",
+          minWidth: "200px",
+          zIndex: 20,
+        }}
+      >
         <Sidebar />
       </Box>
       <Box
         sx={{
-          ml: !showRightSidebar ? 40 : 25,
+          pl: !showRightSidebar ? 40 : 25,
           mr: !showRightSidebar ? 40 : 0,
-          maxWidth: !showRightSidebar ? "70%" : "1500px",
+          width: !showRightSidebar ? "70%" : "91vw",
           minHeight: "100vh",
-          flex: "1 1 auto",
+          flex: "0 1 auto",
           display: "flex",
+          overFlowX: "hidden",
         }}
         id="main layout section"
       >
@@ -48,8 +99,4 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
       >
         <RightSidebar />
       </Box>
-    </Stack>
-  );
-};
-
-export default Layout;
+    </Stack> */
