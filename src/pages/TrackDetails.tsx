@@ -1,4 +1,4 @@
-import { Box, CardMedia, Stack, Typography } from "@mui/material";
+import { Box, CardMedia, duration, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Layout, ShowMore } from "../components";
 import PopularTrackItem from "../components/PopularTrackItem";
@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
+import TracksList from "../components/TracksList";
+import StyledDot from "../components/StyledDot";
 
 const TrackDetails = () => {
   const { trackId } = useParams();
@@ -40,7 +42,7 @@ const TrackDetails = () => {
 
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ flex: "1 1 auto" }}>
+      <Stack sx={{ width: "100%", minHeight: "100vh" }}>
         <Box
           component="section"
           sx={{
@@ -75,11 +77,10 @@ const TrackDetails = () => {
             </Typography>
             <Typography variant="body1">
               {artistsName}
-              {"."}
+              <StyledDot />
               {releaseYear}
-              {"."}
-              {formatDuration(trackDuration)}
             </Typography>
+            <Typography>{formatDuration(trackDuration)}</Typography>
           </Stack>
         </Box>
         <Stack
@@ -93,25 +94,10 @@ const TrackDetails = () => {
           <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
-          <Typography variant="h3" sx={{ pl: 4 }}>
-            Title
+          <Typography variant="h2" sx={{ p: 3 }}>
+            Other Popular Tracks By The Artist Of This Track
           </Typography>
-          <Box
-            sx={{
-              width: "95%",
-              height: "1px",
-              bgcolor: "rgba(255,255,255,0.2)",
-              alignSelf: "center",
-              ml: 3,
-            }}
-          ></Box>
-          <ShowMore minHeight={500}>
-            <Box component="section">
-              {topTracksData?.tracks.map((item: any) => (
-                <PopularTrackItem key={item?.id} trackItem={item} />
-              ))}
-            </Box>
-          </ShowMore>
+          <TracksList tracks={topTracksData?.tracks} height={500} />
         </Stack>
       </Stack>
     </Layout>
