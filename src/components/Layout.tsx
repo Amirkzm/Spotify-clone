@@ -10,7 +10,9 @@ interface LayoutProps {
 }
 const Layout = ({ children, showRightSidebar }: LayoutProps) => {
   return (
-    <Box>
+    <Box
+      sx={{ background: "linear-gradient(to bottom right, #001029, #134c88)" }}
+    >
       <Box sx={{ position: "fixed", width: "20vw", minWidth: "15vw" }}>
         <Sidebar />
       </Box>
@@ -21,6 +23,8 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
             !showRightSidebar ? "50vw" : "80vw"
           } minmax(25vw,30vw)`,
           gridAutoFlow: "dense",
+          p: 2,
+          minHeight: "100vh",
         }}
       >
         <Box
