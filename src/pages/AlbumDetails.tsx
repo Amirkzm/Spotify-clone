@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useGetAlbumQuery, useGetAlbumTracksQuery } from "../redux";
 import PlayButton from "../components/PlayButton";
+import TracksList from "../components/TracksList";
 
 const AlbumDetails = () => {
   const { albumId } = useParams();
@@ -31,7 +32,7 @@ const AlbumDetails = () => {
 
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ flex: "1 1 auto" }} id="topstackkos">
+      <Stack sx={{ width: "100%", minHeight: "100vh" }} id="topstackkos">
         <Box
           component="section"
           sx={{
@@ -68,6 +69,7 @@ const AlbumDetails = () => {
             </Typography>
           </Stack>
         </Box>
+
         <Stack
           sx={{
             background: `linear-gradient(to bottom, ${heroBackground},#134c88 )`,
@@ -80,26 +82,8 @@ const AlbumDetails = () => {
           <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
-          <Typography variant="h3" sx={{ pl: 4 }}>
-            Title
-          </Typography>
-          <Box
-            sx={{
-              width: "95%",
-              height: "1px",
-              bgcolor: "rgba(255,255,255,0.2)",
-              alignSelf: "center",
-              ml: 3,
-            }}
-          ></Box>
 
-          <ShowMore minHeight={380}>
-            <List component="ol" sx={{ minWidth: "100%" }} id="kirehendi">
-              {albumTracks?.items.map((item: any) => (
-                <PopularTrackItem key={item?.id} trackItem={item} />
-              ))}
-            </List>
-          </ShowMore>
+          <TracksList tracks={albumTracks?.items} height={400} type="album" />
         </Stack>
         <Box></Box>
       </Stack>
