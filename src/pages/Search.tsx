@@ -104,7 +104,7 @@ const Search = () => {
 
   return (
     <Layout>
-      <Stack sx={{ mt: 20, gap: 2 }} alignItems="">
+      <Stack sx={{ mt: 5, gap: 2 }} alignItems="">
         <Typography variant="h1" sx={{ mt: 20 }}>
           Find a music
         </Typography>
@@ -113,7 +113,6 @@ const Search = () => {
           type="search"
           label="Search"
           onChange={handleChange}
-          // onKeyDown={handleEnterKeypress}
           sx={{ maxWidth: 400 }}
           InputLabelProps={{
             color: "info",
