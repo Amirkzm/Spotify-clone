@@ -9,6 +9,7 @@ import { RootState } from "../redux/store";
 import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
 import { useGetPlaylistTracksQuery } from "../redux";
+import TracksList from "../components/TracksList";
 
 const PlaylistDetails = () => {
   const { playlistId } = useParams();
@@ -30,9 +31,11 @@ const PlaylistDetails = () => {
     return <p>loading or error</p>;
   }
 
+  const listOfTracks = playlistTracks?.items.map((item: any) => item?.track);
+
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ flex: "1 1 auto" }} id="topstackkos">
+      <Stack sx={{ width: "100%", minHeight: "100vh" }} id="topstackkos">
         <Box
           component="section"
           sx={{
@@ -76,28 +79,7 @@ const PlaylistDetails = () => {
           <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
-          <Typography variant="h3" sx={{ pl: 4 }}>
-            Title
-          </Typography>
-          <Box
-            sx={{
-              width: "95%",
-              height: "1px",
-              bgcolor: "rgba(255,255,255,0.2)",
-              alignSelf: "center",
-              ml: 3,
-            }}
-          ></Box>
-          <ShowMore minHeight={380}>
-            <List component="ol" sx={{ minWidth: "100%" }} id="kirehendi">
-              {playlistTracks?.items?.map((item: any) => (
-                <PopularTrackItem
-                  key={item?.track?.id}
-                  trackItem={item?.track}
-                />
-              ))}
-            </List>
-          </ShowMore>
+          <TracksList tracks={listOfTracks} height={500} />
         </Stack>
       </Stack>
     </Layout>
