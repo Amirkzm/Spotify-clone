@@ -38,7 +38,7 @@ export const extractItemProperties = ({
     artistGenres,
     artistPopularity;
 
-  console.log(item);
+  // console.log(item);
 
   switch (itemType) {
     case "album":
