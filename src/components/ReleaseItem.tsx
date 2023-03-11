@@ -1,6 +1,7 @@
 import { Box, CardMedia, IconButton, Stack, Typography } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 interface ReleaseItemProps {
   albumName: string;
@@ -9,6 +10,9 @@ interface ReleaseItemProps {
 }
 const ReleaseItem = (props: ReleaseItemProps) => {
   const { albumName, artist, imageUrl } = props;
+  const dispatch = useDispatch();
+  const handlePlay = () => {};
+
   return (
     <Stack
       direction="row"
@@ -81,8 +85,8 @@ const ReleaseItem = (props: ReleaseItemProps) => {
           top: "50%",
           right: 3,
           zIndex: "1000",
-          //   transform: "Scale(2)",
         }}
+        onClick={() => handlePlay()}
       >
         <PlayCircleIcon sx={{ fontSize: 48 }} />
       </IconButton>
