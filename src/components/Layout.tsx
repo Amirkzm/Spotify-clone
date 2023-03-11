@@ -3,12 +3,16 @@ import { ComponentType, ReactNode } from "react";
 import Sidebar from "./Sidebar";
 import TopCharts from "./RightSidebar";
 import RightSidebar from "./RightSidebar";
+import Player from "./player/Player";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 interface LayoutProps {
   children: ReactNode;
   showRightSidebar?: boolean;
 }
 const Layout = ({ children, showRightSidebar }: LayoutProps) => {
+  const track = useSelector((state: RootState) => state.itemToPlay.track);
   return (
     <Box
       sx={{ background: "linear-gradient(to bottom right, #001029, #134c88)" }}
@@ -23,7 +27,6 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
             !showRightSidebar ? "50vw" : "80vw"
           } minmax(25vw,30vw)`,
           gridAutoFlow: "dense",
-          p: 2,
           minHeight: "100vh",
         }}
       >
@@ -50,6 +53,7 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
       >
         <RightSidebar />
       </Box>
+      {track && <Player />}
     </Box>
   );
 };
