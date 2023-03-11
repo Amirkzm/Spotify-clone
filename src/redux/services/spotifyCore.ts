@@ -12,7 +12,7 @@ export const spotifyApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://api.spotify.com/v1/",
     prepareHeaders: (headers, { getState }) => {
-      console.log(getState());
+      // console.log(getState());
       const { accessToken } = (getState() as { userAuth: UserAuthState })
         .userAuth;
       const storageToken = localStorage.getItem("accessToken");
