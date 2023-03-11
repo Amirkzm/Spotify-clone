@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { formatDuration, getAllArtists } from "../utils";
 import ExplicitIcon from "./ExplicitIcon";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { useDispatch } from "react-redux";
+import { addTrack } from "../redux/feature/playerSlice";
 
 interface TrackDetailsProps {
   trackItem: any;
@@ -18,6 +20,20 @@ interface TrackDetailsProps {
 
 const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
   const [show, setShow] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const addTrackToStore = () => {
+    console.log(trackItem?.name);
+    dispatch(
+      addTrack({
+        track: trackItem,
+        isPlaying: true,
+        nextTrack: null,
+        previousTrack: null,
+      })
+    );
+  };
+
   return (
     <ListItem
       sx={{
@@ -41,7 +57,7 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
           </ListItemIcon>
         )}
         <Box sx={{ ml: 3 }}>
-          <Link to={`/track/${trackItem?.id}`}>
+          <Link to={`/track/${trackItem?.id}`} onClick={addTrackToStore}>
             <Typography>{trackItem?.name}</Typography>
           </Link>
           <Box sx={{ display: "flex", alignItems: "end", gap: 1 }}>
