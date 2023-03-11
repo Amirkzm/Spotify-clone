@@ -10,9 +10,9 @@ const RecentlyPlayed = () => {
     isError,
   } = useGetRecentlyPlayedTracksQuery();
   if (recentSongs) {
-    console.log(recentSongs);
+    // console.log(recentSongs);
     const listOfSongs = recentSongs?.items.map((item: any) => item?.track);
-    console.log(listOfSongs);
+    // console.log(listOfSongs);
   }
   const listOfSongs = recentSongs?.items.map((item: any) => item?.track);
 
