@@ -40,6 +40,9 @@ export const spotifyApi = createApi({
     getTopArtists: builder.query<any, void>({
       query: () => "me/top/artists?time_range=long_term",
     }),
+    getTrack: builder.query<any, string>({
+      query: (trackId) => `tracks/${trackId}`,
+    }),
     getPlaylists: builder.query<any, void>({
       query: () => "me/playlists",
     }),
@@ -47,17 +50,21 @@ export const spotifyApi = createApi({
       query: (playlistId) => `playlists/${playlistId}/tracks`,
     }),
     getRecentlyPlayedTracks: builder.query<any, void>({
-      query: () => "me/player/recently-played",
+      query: () => "me/player/recently-played?limit=15",
     }),
     getRecommendation: builder.query<
       any,
-      { seedType?: SeedType; seed?: string; limit?: number }
+      { seedType?: SeedType; seed: string; genres?: string; limit?: number }
     >({
       query: ({
-        seedType = "seed_genres",
-        seed = "pop,rock,hip-hop,dance",
+        seed,
+        genres = "pop,rock,hip-hop,alternative",
         limit = 12,
-      }) => `recommendations?limit=${limit}&${seedType}=${seed}`,
+      }) => {
+        let kir = `recommendations?limit=${limit}&market=ES&seed_genres=${genres}&seed_artists=${seed}`;
+        console.log(kir);
+        return kir;
+      },
     }),
     getRelatedArtists: builder.query<any, string>({
       query: (artistId) => `artists/${artistId}/related-artists`,
@@ -106,4 +113,5 @@ export const {
   useGetSavedAlbumsQuery,
   useGetAlbumQuery,
   useGetArtistQuery,
+  useGetTrackQuery,
 } = spotifyApi;
