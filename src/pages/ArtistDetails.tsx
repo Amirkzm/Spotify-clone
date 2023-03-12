@@ -1,5 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Layout, ShowMore } from "../components";
 import ArtistItem from "../components/ArtistItem";
@@ -12,10 +14,12 @@ import {
   useGetArtistTopTracksQuery,
   useGetRelatedArtistsQuery,
 } from "../redux";
+import { addTrack } from "../redux/feature/playerSlice";
 import { extractItemProperties, theme } from "../utils";
 
 const ArtistDetails = () => {
   const { artistId } = useParams();
+  const dispatch = useDispatch();
   const {
     data: artist,
     isLoading: artistLoading,
@@ -38,6 +42,20 @@ const ArtistDetails = () => {
     isLoading: recomLoading,
     isError: recomError,
   } = useGetRelatedArtistsQuery(artistId as string);
+
+  useEffect(() => {
+    if (topTracks) {
+      dispatch(
+        addTrack({
+          track: topTracks?.tracks[0],
+          isPlaying: false,
+          nextTrack: null,
+          previousTrack: null,
+          trackQueue: topTracks?.tracks,
+        })
+      );
+    }
+  }, [topTracks, dispatch]);
   if (
     isError ||
     isLoading ||
@@ -89,11 +107,7 @@ const ArtistDetails = () => {
                 {artistsName}
               </Typography>
             </Box>
-            <Typography
-              variant="h2"
-              fontWeight={"bold"}
-              sx={{ textStroke: "1px black", WebkitTextStroke: "1px black" }}
-            >
+            <Typography variant="h2" fontWeight={"bold"}>
               {followers} follow {artistsName}
             </Typography>
           </Box>
