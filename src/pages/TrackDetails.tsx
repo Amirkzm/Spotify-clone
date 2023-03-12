@@ -2,29 +2,38 @@ import { Box, CardMedia, duration, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Layout, ShowMore } from "../components";
 import PopularTrackItem from "../components/PopularTrackItem";
-import { useGetArtistTopTracksQuery } from "../redux";
+import { useGetArtistTopTracksQuery, useGetTrackQuery } from "../redux";
 import { extractItemProperties, formatDuration, theme } from "../utils";
 
 import useImageColor from "../hooks/useImageColor";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
 import TracksList from "../components/TracksList";
 import StyledDot from "../components/StyledDot";
+import { addTrack } from "../redux/feature/playerSlice";
 
 const TrackDetails = () => {
   const { trackId } = useParams();
-  const trackItem = useSelector((state: RootState) => state.savedItem.item);
+  const dispatch = useDispatch();
+  console.log("trackDetails running");
+  const trackItem = useSelector((state: RootState) => state.itemToPlay.track);
   const {
-    imageUrl,
-    artistId,
-    releaseDate,
-    songName,
-    artistsName,
-    trackDuration,
+    data: trackData,
+    isLoading,
+    isError,
+  } = useGetTrackQuery(trackId as string);
+
+  const {
+    imageUrl = "",
+    artistId = "",
+    releaseDate = "",
+    songName = "",
+    artistsName = "",
+    trackDuration = "",
   } = extractItemProperties({
-    item: trackItem,
+    item: trackData || trackItem,
     itemType: "track",
   });
   const {
@@ -33,6 +42,20 @@ const TrackDetails = () => {
     isError: topTracksError,
   } = useGetArtistTopTracksQuery({ artistId: artistId });
 
+  useEffect(() => {
+    if (topTracksData) {
+      dispatch(
+        addTrack({
+          track: trackItem,
+          isPlaying: false,
+          nextTrack: null,
+          previousTrack: null,
+          trackQueue: topTracksData?.tracks,
+        })
+      );
+    }
+  }, [dispatch, topTracksData, trackItem]);
+
   const heroBackground = useImageColor(imageUrl);
 
   if (topTracksLoading || topTracksError) {
@@ -40,9 +63,23 @@ const TrackDetails = () => {
   }
   const releaseYear: string = releaseDate.split("-")[0];
 
+  const playTrackHandler = () => {
+    if (topTracksData) {
+      dispatch(
+        addTrack({
+          track: trackItem,
+          isPlaying: false,
+          nextTrack: null,
+          previousTrack: null,
+          trackQueue: topTracksData?.tracks,
+        })
+      );
+    }
+  };
+
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ width: "100%", minHeight: "100vh" }}>
+      <Stack sx={{ width: "100%", height: "100%", pb: "200px" }}>
         <Box
           component="section"
           sx={{
@@ -91,13 +128,13 @@ const TrackDetails = () => {
             pt: 10,
           }}
         >
-          <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
+          <Box sx={{ pl: 3, mb: 3, mt: -10 }} onClick={playTrackHandler}>
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
           <Typography variant="h2" sx={{ p: 3 }}>
-            Other Popular Tracks By The Artist Of This Track
+            Other Popular Tracks By {artistsName}
           </Typography>
-          <TracksList tracks={topTracksData?.tracks} height={500} />
+          <TracksList tracks={topTracksData?.tracks} height={380} />
         </Stack>
       </Stack>
     </Layout>
