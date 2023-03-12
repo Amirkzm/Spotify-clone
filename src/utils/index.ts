@@ -6,4 +6,5 @@ export {
   getAllArtists,
   extractItemProperties,
   formatDuration,
+  removeDuplicates,
 } from "./utilFunctions";

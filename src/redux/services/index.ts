@@ -13,3 +13,4 @@ export { useGetArtistTopTracksQuery } from "./spotifyCore";
 export { useGetAlbumQuery } from "./spotifyCore";
 export { useGetRelatedArtistsQuery } from "./spotifyCore";
 export { useGetArtistQuery } from "./spotifyCore";
+export { useGetTrackQuery } from "./spotifyCore";
