@@ -36,7 +36,7 @@ const TracksList = ({ tracks, height, type = "artist" }: TrackListProps) => {
           ml: 3,
         }}
       ></Box>
-      <ShowMore minHeight={380}>
+      <ShowMore minHeight={height}>
         <List component="ol" sx={{ width: "100%" }}>
           {tracks?.map((item: any) => (
             <PopularTrackItem key={item?.id} trackItem={item} />
