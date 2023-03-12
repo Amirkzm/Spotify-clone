@@ -10,27 +10,34 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Layout, SongsFeed } from "../components";
-import { useGetRecommendationQuery } from "../redux";
+import { useGetRecommendationQuery, useGetTopArtistsQuery } from "../redux";
 import { genresType } from "../utils";
 import { genres } from "../utils";
 
 const Discover = () => {
   const [genre, setGenre] = useState<string>("pop");
+  const {
+    data: artistData,
+    isLoading: artistLoading,
+    isError: artistError,
+  } = useGetTopArtistsQuery();
   const { data, isLoading, isError } = useGetRecommendationQuery({
-    seed: genre,
+    seed: artistData?.items[0]?.id || "",
+    genres: genre,
   });
 
   const handleChange = (event: SelectChangeEvent) => {
     setGenre(event.target.value as string);
   };
 
-  if (isLoading) {
+  if (isLoading || artistLoading) {
     return <p>Loading</p>;
   }
 
-  if (isError) {
+  if (isError || artistError) {
     return <p>Error happened while connecting to server</p>;
   }
+  console.log(data);
 
   return (
     <Layout>
