@@ -5,19 +5,18 @@ import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 
 interface PlayButtonProps {
   sx?: { [key: string]: any };
+  isPlaying?: boolean;
 }
 
-const PlayButton = ({ sx }: PlayButtonProps) => {
-  const [play, setPlay] = useState<boolean>(true);
+const PlayButton = ({ sx, isPlaying }: PlayButtonProps) => {
   return (
     <Box>
       <Box
-        onClick={() => setPlay((prev) => !prev)}
         sx={{
           "&:hover": { cursor: "pointer " },
         }}
       >
-        {play ? <PlayCircleIcon sx={sx} /> : <PauseCircleIcon sx={sx} />}
+        {isPlaying ? <PauseCircleIcon sx={sx} /> : <PlayCircleIcon sx={sx} />}
       </Box>
     </Box>
   );
