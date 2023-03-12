@@ -5,14 +5,17 @@ import { extractItemProperties, formatDuration, theme } from "../utils";
 
 import useImageColor from "../hooks/useImageColor";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useGetAlbumQuery, useGetAlbumTracksQuery } from "../redux";
 import PlayButton from "../components/PlayButton";
 import TracksList from "../components/TracksList";
+import { useEffect } from "react";
+import { addTrack } from "../redux/feature/playerSlice";
 
 const AlbumDetails = () => {
   const { albumId } = useParams();
+  const dispatch = useDispatch();
   const album = useSelector((state: RootState) => state.savedItem.item);
   const {
     data: albumTracks,
@@ -30,9 +33,27 @@ const AlbumDetails = () => {
   const heroBackground = useImageColor(imageUrl);
   const releaseYear: string = releaseDate.split("-")[0];
 
+  const playAlbumHandler = () => {
+    if (albumTracks) {
+      console.log(albumTracks?.items[1]);
+      dispatch(
+        addTrack({
+          track: albumTracks?.items[0],
+          isPlaying: false,
+          nextTrack: null,
+          previousTrack: null,
+          trackQueue: albumTracks?.items,
+        })
+      );
+    }
+  };
+
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ width: "100%", minHeight: "100vh" }} id="topstackkos">
+      <Stack
+        sx={{ width: "100%", minHeight: "100vh", pb: "200px" }}
+        id="topstackkos"
+      >
         <Box
           component="section"
           sx={{
@@ -79,7 +100,7 @@ const AlbumDetails = () => {
           }}
           id="bottom part container"
         >
-          <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
+          <Box sx={{ pl: 3, mb: 3, mt: -10 }} onClick={playAlbumHandler}>
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
 
