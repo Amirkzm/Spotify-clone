@@ -8,19 +8,25 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
-import { useGetRecommendationQuery, useSearchQuery } from "../redux";
+import {
+  useGetRecommendationQuery,
+  useGetTopArtistsQuery,
+  useSearchQuery,
+} from "../redux";
 import { AlbumFeed, Layout, PlaylistFeed, SongsFeed } from "../components";
 
 const Search = () => {
   const [query, setQuery] = useState<string>("");
   const [showRecommendation, setShowRecommendation] = useState<boolean>(true);
+  const { data, isLoading, isError } = useGetTopArtistsQuery();
   const {
     data: recommendedData,
     isLoading: isRecommendedLoading,
     isError: isRecommendedError,
   } = useGetRecommendationQuery({
-    limit: 15,
+    seed: data?.items[0]?.id || "",
   });
+  console.log(recommendedData);
   const {
     data: searchData,
     isLoading: isSearchLoading,
@@ -39,7 +45,7 @@ const Search = () => {
     }, 1000);
   };
 
-  if (isRecommendedLoading || isSearchLoading) {
+  if (isRecommendedLoading || isSearchLoading || isLoading) {
     return <p>loading New released songs</p>;
   }
 
