@@ -23,13 +23,16 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
   const dispatch = useDispatch();
 
   const addTrackToStore = () => {
-    console.log(trackItem?.name);
+    // console.log(trackItem?.name);
+    // console.log(trackItem?.preview_url);
+    // console.log(trackItem);
     dispatch(
       addTrack({
         track: trackItem,
-        isPlaying: true,
+        isPlaying: false,
         nextTrack: null,
         previousTrack: null,
+        trackQueue: [],
       })
     );
   };
