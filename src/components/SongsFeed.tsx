@@ -1,5 +1,4 @@
 import { Stack } from "@mui/material";
-import React from "react";
 import SongCard from "./SongCard";
 import { getAllArtists } from "../utils";
 import { Link } from "react-router-dom";
@@ -9,14 +8,13 @@ import { addTrack } from "../redux/feature/playerSlice";
 
 interface SongsFeedProps {
   songs: any;
-  category?: string;
 }
 
 interface SongType {
   name: string;
 }
 
-const SongsFeed = ({ songs, category = "track" }: SongsFeedProps) => {
+const SongsFeed = ({ songs }: SongsFeedProps) => {
   const dispatch = useDispatch();
 
   const trackClickHandler = (track: any) => {
@@ -27,6 +25,7 @@ const SongsFeed = ({ songs, category = "track" }: SongsFeedProps) => {
         isPlaying: true,
         nextTrack: null,
         previousTrack: null,
+        trackQueue: [],
       })
     );
   };
