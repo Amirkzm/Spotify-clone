@@ -38,7 +38,7 @@ export const extractItemProperties = ({
     artistGenres,
     artistPopularity;
 
-  // console.log(item);
+  console.log(item);
 
   switch (itemType) {
     case "album":
@@ -99,4 +99,16 @@ export const extractItemProperties = ({
     artistGenres,
     artistPopularity,
   };
+};
+
+export const removeDuplicates = (arr: any[]) => {
+  let uniqueIds: any = {};
+  return arr.filter((obj) => {
+    if (!uniqueIds[obj.id]) {
+      uniqueIds[obj.id] = true;
+      return true;
+    } else {
+      return false;
+    }
+  });
 };
