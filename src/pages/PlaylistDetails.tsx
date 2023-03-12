@@ -4,15 +4,17 @@ import PopularTrackItem from "../components/PopularTrackItem";
 import { extractItemProperties, formatDuration, theme } from "../utils";
 
 import useImageColor from "../hooks/useImageColor";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
 import { useGetPlaylistTracksQuery } from "../redux";
 import TracksList from "../components/TracksList";
+import { addTrack } from "../redux/feature/playerSlice";
 
 const PlaylistDetails = () => {
   const { playlistId } = useParams();
+  const dispatch = useDispatch();
   const playlistItem = useSelector((state: RootState) => state.savedItem.item);
   console.log(playlistItem);
   const {
@@ -32,6 +34,18 @@ const PlaylistDetails = () => {
   }
 
   const listOfTracks = playlistTracks?.items.map((item: any) => item?.track);
+
+  const playlistPlayHandler = () => {
+    dispatch(
+      addTrack({
+        track: listOfTracks[0],
+        isPlaying: false,
+        nextTrack: null,
+        previousTrack: null,
+        trackQueue: listOfTracks,
+      })
+    );
+  };
 
   return (
     <Layout showRightSidebar>
@@ -76,7 +90,7 @@ const PlaylistDetails = () => {
           }}
           id="bottom part container"
         >
-          <Box sx={{ pl: 3, mb: 3, mt: -10 }}>
+          <Box sx={{ pl: 3, mb: 3, mt: -10 }} onClick={playlistPlayHandler}>
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
           <TracksList tracks={listOfTracks} height={500} />
