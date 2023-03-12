@@ -1,13 +1,19 @@
 import { Stack, Typography } from "@mui/material";
-import { useGetRecommendationQuery } from "../redux";
+import { useGetRecommendationQuery, useGetTopArtistsQuery } from "../redux";
 import SongsFeed from "./SongsFeed";
 
 const RecomendedSongs = () => {
   const {
+    data,
+    isLoading: artistLoading,
+    isError: artistError,
+  } = useGetTopArtistsQuery();
+
+  const {
     data: RecomendedSongs,
     isLoading,
     isError,
-  } = useGetRecommendationQuery({});
+  } = useGetRecommendationQuery({ seed: data?.items[0]?.id });
 
   if (isLoading) {
     return <p>loading Recomended Songs for you</p>;
