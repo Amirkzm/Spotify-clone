@@ -7,7 +7,6 @@ const Home = () => {
     <Stack id="root home stack">
       <RecentlyPlayed />
       <UserTopSongs />
-      <RecomendedSongs />
     </Stack>
   );
   return <Layout>{mainSection}</Layout>;
