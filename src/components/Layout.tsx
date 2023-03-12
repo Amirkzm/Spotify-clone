@@ -12,7 +12,9 @@ interface LayoutProps {
   showRightSidebar?: boolean;
 }
 const Layout = ({ children, showRightSidebar }: LayoutProps) => {
-  const track = useSelector((state: RootState) => state.itemToPlay.track);
+  const showPlayer = useSelector(
+    (state: RootState) => state.itemToPlay.showPlayer
+  );
   return (
     <Box
       sx={{ background: "linear-gradient(to bottom right, #001029, #134c88)" }}
@@ -27,7 +29,7 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
             !showRightSidebar ? "50vw" : "80vw"
           } minmax(25vw,30vw)`,
           gridAutoFlow: "dense",
-          minHeight: "100vh",
+          // minHeight: "100vh",
         }}
       >
         <Box
@@ -37,6 +39,7 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            // pb: showPlayer ? "200px" : "",
           }}
         >
           {children}
@@ -53,58 +56,9 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
       >
         <RightSidebar />
       </Box>
-      {track && <Player />}
+      {showPlayer && <Player />}
     </Box>
   );
 };
 
 export default Layout;
-
-/*<Stack
-      direction={"row"}
-      sx={{
-        position: "relative",
-        flexWrap: "wrap",
-        background: "linear-gradient(to bottom right, #001029, #134c88)",
-        overFlowX: "hidden",
-      }}
-      id="kir"
-    >
-      <Box
-        sx={{
-          position: "fixed",
-          maxWidth: "10vw",
-          minWidth: "200px",
-          zIndex: 20,
-        }}
-      >
-        <Sidebar />
-      </Box>
-      <Box
-        sx={{
-          pl: !showRightSidebar ? 40 : 25,
-          mr: !showRightSidebar ? 40 : 0,
-          width: !showRightSidebar ? "70%" : "91vw",
-          minHeight: "100vh",
-          flex: "0 1 auto",
-          display: "flex",
-          overFlowX: "hidden",
-        }}
-        id="main layout section"
-      >
-        {children}
-      </Box>
-
-      <Box
-        sx={{
-          position: "fixed",
-          right: 0,
-          width: "20%",
-          minWidth: "300px",
-          boxSizing: "border-box",
-          display: !showRightSidebar ? "block" : "none",
-        }}
-      >
-        <RightSidebar />
-      </Box>
-    </Stack> */
