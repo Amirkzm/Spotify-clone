@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 import { useGetRecentlyPlayedTracksQuery } from "../redux";
+import { removeDuplicates } from "../utils";
 import SongsFeed from "./SongsFeed";
 
 const RecentlyPlayed = () => {
@@ -14,7 +15,6 @@ const RecentlyPlayed = () => {
     const listOfSongs = recentSongs?.items.map((item: any) => item?.track);
     // console.log(listOfSongs);
   }
-  const listOfSongs = recentSongs?.items.map((item: any) => item?.track);
 
   if (isLoading) {
     return <p>loading recently played songs</p>;
@@ -23,13 +23,15 @@ const RecentlyPlayed = () => {
   if (isError) {
     return <p>error happend while loading recently played songs</p>;
   }
+  const listOfSongs = recentSongs?.items.map((item: any) => item?.track);
+  const modifiedList = removeDuplicates(listOfSongs);
 
   return (
     <Stack>
       <Typography variant="h2" sx={{ alignSelf: "start", mt: 5 }}>
         Recently Played songs
       </Typography>
-      <SongsFeed songs={listOfSongs} />
+      <SongsFeed songs={modifiedList} />
     </Stack>
   );
 };
