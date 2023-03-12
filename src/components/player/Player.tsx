@@ -1,51 +1,21 @@
 import { Box, CardMedia, Stack, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTrack } from "../../redux/feature/playerSlice";
+import { addTrack, hidePlayer } from "../../redux/feature/playerSlice";
 import { RootState } from "../../redux/store";
 import { extractItemProperties } from "../../utils";
 import PlayButton from "../PlayButton";
 import AudioPlayer from "./AudioPlayer";
-
-// interface PlayerProps {}
+import CloseIcon from "@mui/icons-material/Close";
 
 const Player = () => {
-  const { track, isPlaying, nextTrack, previousTrack } = useSelector(
-    (state: RootState) => state.itemToPlay
-  );
-
-  console.log(track?.name);
-  const [audio, setAudio] = useState<HTMLAudioElement>(
-    new Audio(track?.preview_url)
-  );
-  const { songName, albumName, artistsName, trackDuration, imageUrl } =
-    extractItemProperties({ item: track, itemType: "track" });
-
   const dispatch = useDispatch();
+  const { track } = useSelector((state: RootState) => state.itemToPlay);
 
-  // const audio = new Audio(track?.preview_url);
-
-  useEffect(() => {}, []);
-
-  const playHandler = () => {
-    console.log("isplaying = ", isPlaying);
-    if (isPlaying) {
-      console.log("is playing . now pausing");
-      audio.pause();
-    } else {
-      console.log("paused . now playing");
-
-      audio.play();
-    }
-    dispatch(
-      addTrack({
-        track: track,
-        isPlaying: !isPlaying,
-        nextTrack: null,
-        previousTrack: null,
-      })
-    );
-  };
+  const { songName, artistsName, imageUrl } = extractItemProperties({
+    item: track,
+    itemType: "track",
+  });
 
   return (
     <Stack
@@ -58,23 +28,40 @@ const Player = () => {
         bgcolor: "primary.main",
       }}
     >
-      {/* <Stack direction={"row"}>
+      <Stack direction={"row"} gap={1} sx={{ ml: 3 }}>
         <CardMedia
           component="img"
-          height="80"
+          height="60"
           image={imageUrl}
-          alt="track photo"
-          sx={{ objectFit: "contain" }}
+          alt="album photo"
+          sx={{ objectFit: "contain", mt: 3, width: "60px" }}
         />
-        <Typography>{songName}</Typography>
-        <Typography>{artistsName}</Typography>
-        <Box component={"audio"} src={track?.preview_url} controls></Box>
+        <Box sx={{ alignSelf: "center" }}>
+          <Typography>{songName}</Typography>
+          <Typography variant="body2">{artistsName}</Typography>
+        </Box>
       </Stack>
-      <Box onClick={playHandler}>
-        <PlayButton sx={{ fontSize: "35px" }} />
+      <Box
+        sx={{
+          position: "absolute",
+          left: "0%",
+          top: "10%",
+          width: "100%",
+        }}
+      >
+        <AudioPlayer />
       </Box>
-      <Box component={"audio"} src={track?.preview_url}></Box> */}
-      <AudioPlayer preview_url={track?.preview_url} />
+      <Box
+        sx={{
+          position: "absolute",
+          top: 5,
+          right: 5,
+          "&:hover": { cursor: "pointer" },
+        }}
+        onClick={() => dispatch(hidePlayer())}
+      >
+        <CloseIcon sx={{ fontSize: "24px" }} />
+      </Box>
     </Stack>
   );
 };
