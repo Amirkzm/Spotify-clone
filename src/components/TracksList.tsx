@@ -20,11 +20,7 @@ const TracksList = ({ tracks, height, type = "artist" }: TrackListProps) => {
         <Typography variant="h3" sx={{ pl: 4 }}>
           Title
         </Typography>
-        {showReleaseDate && (
-          <Typography variant="h3" sx={{ position: "relative", left: "23%" }}>
-            Release Date
-          </Typography>
-        )}
+        {showReleaseDate && <Typography variant="h3">Release Date</Typography>}
         <AccessTimeIcon sx={{ alignSelf: "center", fontSize: "26px", mr: 3 }} />
       </Stack>
       <Box
