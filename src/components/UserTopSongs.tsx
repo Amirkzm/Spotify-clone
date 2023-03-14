@@ -9,20 +9,24 @@ const UserTopSongs = () => {
     isError,
   } = useGetTopTracksQuery({ limit: 10 });
 
-  if (isLoading) {
-    return <p>loading user&apos;s top songs</p>;
-  }
+  // if (isLoading) {
+  //   return <p>loading user&apos;s top songs</p>;
+  // }
 
-  if (isError) {
-    return <p>error happend while loading user&apos;s tops songs</p>;
-  }
+  // if (isError) {
+  //   return <p>error happend while loading user&apos;s tops songs</p>;
+  // }
   return (
-    <Stack>
-      <Typography variant="h2" sx={{ alignSelf: "start", mt: 5 }}>
-        Most Played Songs
-      </Typography>
-      <SongsFeed songs={topSongs?.items} />
-    </Stack>
+    <>
+      {!isLoading && !isError && (
+        <Stack>
+          <Typography variant="h2" sx={{ alignSelf: "start", mt: 5 }}>
+            Most Played Songs
+          </Typography>
+          <SongsFeed songs={topSongs?.items} />
+        </Stack>
+      )}
+    </>
   );
 };
 
