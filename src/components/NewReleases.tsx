@@ -1,10 +1,14 @@
 import { Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { useGetAlbumTracksQuery, useGetNewReleasesQuery } from "../redux";
+import { addItme } from "../redux/feature/itemSlice";
 import { getAllArtists } from "../utils";
 import ReleaseItem from "./ReleaseItem";
 
 const NewReleasesTrack = () => {
+  const dispatch = useDispatch();
   const { data, isLoading, isError } = useGetNewReleasesQuery({
     limit: 5,
   });
@@ -17,24 +21,27 @@ const NewReleasesTrack = () => {
     return <p>error happend while loading New released songs</p>;
   }
 
-  // const albumIdList = data?.albums?.items.map((album: any) => album.id);
-  // const firstTracksOfEachAlbum = albumIdList.map((albumId: string) => {
-  //   const { data, isLoading, isError } = useGetAlbumTracksQuery(albumId);
-  //   if (!isLoading && !isError) {
-  //     return data.items;
-  //   }
-  // });
+  const releaseClickHandler = (album: any) => {
+    dispatch(addItme(album));
+  };
 
   return (
     <Stack sx={{}}>
       <Typography>New Releases</Typography>
       {data?.albums?.items.map((album: any) => (
-        <ReleaseItem
-          albumName={album?.name}
-          artist={getAllArtists(album?.artists)}
-          imageUrl={album?.images[1]?.url}
+        <Link
+          to={`/album/${album?.id}`}
           key={album?.id}
-        />
+          onClick={() => releaseClickHandler(album)}
+        >
+          <ReleaseItem
+            albumName={album?.name}
+            artist={getAllArtists(album?.artists)}
+            imageUrl={album?.images[1]?.url}
+            albumId={album?.id}
+            key={album?.id}
+          />
+        </Link>
       ))}
     </Stack>
   );
