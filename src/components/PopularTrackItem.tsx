@@ -1,18 +1,12 @@
-import {
-  Box,
-  Divider,
-  ListItem,
-  ListItemIcon,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, ListItem, ListItemIcon, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDuration, getAllArtists } from "../utils";
 import ExplicitIcon from "./ExplicitIcon";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { useDispatch } from "react-redux";
-import { addTrack } from "../redux/feature/playerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTrack } from "../redux/feature/playerSlice";
+import { RootState } from "../redux/store";
 
 interface TrackDetailsProps {
   trackItem: any;
@@ -21,18 +15,14 @@ interface TrackDetailsProps {
 const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
   const [show, setShow] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const currentPlayingTrack = useSelector(
+    (state: RootState) => state.itemToPlay.track
+  );
 
   const addTrackToStore = () => {
-    // console.log(trackItem?.name);
-    // console.log(trackItem?.preview_url);
-    // console.log(trackItem);
     dispatch(
-      addTrack({
+      updateTrack({
         track: trackItem,
-        isPlaying: false,
-        nextTrack: null,
-        previousTrack: null,
-        trackQueue: [],
       })
     );
   };
@@ -43,6 +33,8 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
         display: "flex",
         justifyContent: "space-between",
         position: "relative",
+        bgcolor:
+          currentPlayingTrack?.id === trackItem?.id ? "hsla(0,0%,100%,.2)" : "",
         "&:hover": { bgcolor: "hsla(0,0%,100%,.2)" },
       }}
       onMouseEnter={() => setShow(true)}
@@ -50,7 +42,10 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
     >
       <Stack direction={"row"}>
         {show && (
-          <ListItemIcon sx={{ position: "absolute", top: "5%", left: "-1%" }}>
+          <ListItemIcon
+            sx={{ position: "absolute", top: "5%", left: "-1%" }}
+            onClick={addTrackToStore}
+          >
             <PlayArrowIcon
               sx={{
                 fontSize: "48px",
