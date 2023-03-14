@@ -1,7 +1,6 @@
 import { Box, Grid, Stack } from "@mui/material";
-import { ComponentType, ReactNode } from "react";
+import { ReactNode } from "react";
 import Sidebar from "./Sidebar";
-import TopCharts from "./RightSidebar";
 import RightSidebar from "./RightSidebar";
 import Player from "./player/Player";
 import { useSelector } from "react-redux";
@@ -12,6 +11,7 @@ interface LayoutProps {
   showRightSidebar?: boolean;
 }
 const Layout = ({ children, showRightSidebar }: LayoutProps) => {
+  console.log("running layout");
   const showPlayer = useSelector(
     (state: RootState) => state.itemToPlay.showPlayer
   );
@@ -29,7 +29,7 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
             !showRightSidebar ? "50vw" : "80vw"
           } minmax(25vw,30vw)`,
           gridAutoFlow: "dense",
-          // minHeight: "100vh",
+          pb: showPlayer ? "105px" : "0",
         }}
       >
         <Box
@@ -52,11 +52,11 @@ const Layout = ({ children, showRightSidebar }: LayoutProps) => {
           right: 0,
           width: "30vw",
           display: !showRightSidebar ? "block" : "none",
+          pb: showPlayer ? "105px" : "0",
         }}
       >
         <RightSidebar />
       </Box>
-      {showPlayer && <Player />}
     </Box>
   );
 };
