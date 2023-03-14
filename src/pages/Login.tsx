@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 const Login = () => {
+  console.log("running login");
   const { oauthHandler } = useLogin();
   const [open, setOpen] = useState<boolean>(true);
   const { accessToken, accessGranted } = useSelector(
