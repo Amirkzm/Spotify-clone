@@ -7,4 +7,6 @@ export {
   extractItemProperties,
   formatDuration,
   removeDuplicates,
+  shuffle,
+  getRandomNumber,
 } from "./utilFunctions";
