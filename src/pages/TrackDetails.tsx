@@ -47,7 +47,7 @@ const TrackDetails = () => {
       dispatch(
         addTrack({
           track: trackItem,
-          isPlaying: false,
+          shouldPlay: false,
           nextTrack: null,
           previousTrack: null,
           trackQueue: topTracksData?.tracks,
@@ -68,7 +68,7 @@ const TrackDetails = () => {
       dispatch(
         addTrack({
           track: trackItem,
-          isPlaying: false,
+          shouldPlay: true,
           nextTrack: null,
           previousTrack: null,
           trackQueue: topTracksData?.tracks,
@@ -79,7 +79,7 @@ const TrackDetails = () => {
 
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ width: "100%", height: "100%", pb: "200px" }}>
+      <Stack sx={{ width: "100%", height: "100%" }}>
         <Box
           component="section"
           sx={{
