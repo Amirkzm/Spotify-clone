@@ -1,34 +1,52 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Slider, Stack, Typography } from "@mui/material";
 import PlayButton from "../PlayButton";
 import { RootState } from "../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
+import { addTrack, updatePlayer } from "../../redux/feature/playerSlice";
 import {
   SkipNext,
   SkipPrevious,
   VolumeUp,
   VolumeMute,
   VolumeDown,
+  Shuffle,
+  ShuffleOn,
+  Repeat,
+  RepeatOn,
 } from "@mui/icons-material";
-import { addTrack } from "../../redux/feature/playerSlice";
+import { getRandomNumber, shuffle } from "../../utils";
 
 const AudioPlayer = () => {
+  // console.log("audioPlayer");
   const dispatch = useDispatch();
-  const { track, nextTrack, previousTrack, trackQueue } = useSelector(
-    (state: RootState) => state.itemToPlay
-  );
+  const { track, shouldPlay, nextTrack, previousTrack, trackQueue } =
+    useSelector((state: RootState) => state.itemToPlay);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [volumeValue, setVolumeValue] = useState<number>(50);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [repeat, setRepeat] = useState<boolean>(false);
+  const [isShuffle, setIsShuffle] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(shouldPlay);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarFilled = useRef<HTMLDivElement>(null);
   const previousVolumeValue = useRef<number>(50);
 
+  const trackId = useMemo(() => track?.id, [track?.id]);
+  // const trackID = track?.id;
+  // console.log("((((((********", trackId);
   useEffect(() => {
+    console.log("inside useaeaf ---------------");
     if (audioRef.current && isPlaying) {
       audioRef.current.play();
     }
-  }, [track]);
+    if (audioRef.current && shouldPlay) {
+      audioRef.current?.play();
+    }
+  }, []);
+
+  // useEffect(()=>{
+
+  // },[track])
 
   const play = () => {
     if (audioRef.current) {
@@ -48,15 +66,12 @@ const AudioPlayer = () => {
     );
     if (currentTrackIndex > -1) {
       dispatch(
-        addTrack({
+        updatePlayer({
           track:
             currentTrackIndex < trackQueue.length - 1
               ? trackQueue[currentTrackIndex + 1]
               : trackQueue[0],
-          isPlaying: false,
-          nextTrack: null,
-          previousTrack: null,
-          trackQueue: trackQueue,
+          shouldPlay: isPlaying ? true : false,
         })
       );
     }
@@ -68,18 +83,32 @@ const AudioPlayer = () => {
     );
     if (currentTrackIndex > -1) {
       dispatch(
-        addTrack({
+        updatePlayer({
           track:
             currentTrackIndex > 0
               ? trackQueue[currentTrackIndex - 1]
               : trackQueue[0],
-          isPlaying: false,
-          nextTrack: null,
-          previousTrack: null,
-          trackQueue: trackQueue,
+          shouldPlay: isPlaying ? true : false,
         })
       );
     }
+  };
+
+  const RepeatButtonHandler = () => {
+    setRepeat((prev) => !prev);
+  };
+
+  const shuffleButtonHandler = () => {
+    setIsShuffle((prev) => !prev);
+    dispatch(
+      addTrack({
+        track: trackQueue[getRandomNumber(0, trackQueue.length)],
+        shouldPlay: isPlaying ? true : false,
+        nextTrack: null,
+        previousTrack: null,
+        trackQueue: shuffle(trackQueue),
+      })
+    );
   };
 
   const handleVolumeChange = (event: Event, newValue: number | number[]) => {
@@ -100,6 +129,9 @@ const AudioPlayer = () => {
       setCurrentTime(audioRef.current.currentTime);
       if (audioRef.current.currentTime === audioRef.current.duration) {
         setIsPlaying(false);
+        if (repeat) {
+          play();
+        }
       }
     }
   };
@@ -150,7 +182,24 @@ const AudioPlayer = () => {
       >
         <source src={track?.preview_url} type="audio/mpeg" />
       </audio>
-      <Box sx={{ display: "flex", gap: 2, transform: "translateX(35%)" }}>
+      <Box sx={{ display: "flex", gap: 2, transform: "translateX(30%)" }}>
+        <Box sx={{ alignSelf: "center" }} onClick={shuffleButtonHandler}>
+          {isShuffle ? (
+            <ShuffleOn
+              sx={{
+                ...controlButtonsStyle,
+                fontSize: "22px",
+              }}
+            />
+          ) : (
+            <Shuffle
+              sx={{
+                ...controlButtonsStyle,
+                fontSize: "22px",
+              }}
+            />
+          )}
+        </Box>
         <Box onClick={previous}>
           <SkipPrevious sx={controlButtonsStyle} />
         </Box>
@@ -159,6 +208,13 @@ const AudioPlayer = () => {
         </Box>
         <Box onClick={next}>
           <SkipNext sx={controlButtonsStyle} />
+        </Box>
+        <Box onClick={RepeatButtonHandler} sx={{ alignSelf: "center" }}>
+          {repeat ? (
+            <RepeatOn sx={{ ...controlButtonsStyle, fontSize: "22px" }} />
+          ) : (
+            <Repeat sx={{ ...controlButtonsStyle, fontSize: "22px" }} />
+          )}
         </Box>
       </Box>
       <Stack
