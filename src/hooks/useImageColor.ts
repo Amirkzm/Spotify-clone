@@ -8,7 +8,6 @@ const useImageColor = (imageUrl: string): string | undefined => {
     loading: imageIsLoading,
     error: imageIsError,
   } = useColor(imageUrl, "hex", { crossOrigin: "anonymous" });
-  console.log(imageUrl);
 
   if (imageIsLoading) {
     console.log("image is loading");
