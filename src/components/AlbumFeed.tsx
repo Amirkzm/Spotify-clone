@@ -7,10 +7,9 @@ import { addItme } from "../redux/feature/itemSlice";
 
 interface albumsFeedProps {
   albums: any;
-  category?: string;
 }
 
-const AlbumFeed = ({ albums, category = "track" }: albumsFeedProps) => {
+const AlbumFeed = ({ albums }: albumsFeedProps) => {
   const dispatch = useDispatch();
 
   const albumClickHandler = (album: any) => {
