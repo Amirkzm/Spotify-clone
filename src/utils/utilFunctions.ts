@@ -38,7 +38,7 @@ export const extractItemProperties = ({
     artistGenres,
     artistPopularity;
 
-  console.log(item);
+  // console.log(item);
 
   switch (itemType) {
     case "album":
@@ -111,4 +111,14 @@ export const removeDuplicates = (arr: any[]) => {
       return false;
     }
   });
+};
+
+export const shuffle = (array: any[]) => {
+  const newArray = [...array];
+  newArray.sort(() => Math.random() - 0.5);
+  return newArray;
+};
+
+export const getRandomNumber = (x: number, y: number) => {
+  return Math.floor(Math.random() * (y - x + 1)) + x;
 };
