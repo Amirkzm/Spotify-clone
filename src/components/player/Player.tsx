@@ -9,13 +9,21 @@ import AudioPlayer from "./AudioPlayer";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Player = () => {
+  console.log("running player");
   const dispatch = useDispatch();
+  const showPlayer = useSelector(
+    (state: RootState) => state.itemToPlay.showPlayer
+  );
   const { track } = useSelector((state: RootState) => state.itemToPlay);
 
   const { songName, artistsName, imageUrl } = extractItemProperties({
     item: track,
     itemType: "track",
   });
+
+  useEffect(() => {
+    console.log("inside player useEffect ---------------");
+  }, []);
 
   return (
     <Stack
@@ -26,6 +34,7 @@ const Player = () => {
         width: "100%",
         height: "100px",
         bgcolor: "primary.main",
+        display: showPlayer ? "flex" : "none",
       }}
     >
       <Stack direction={"row"} gap={1} sx={{ ml: 3 }}>
