@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Player from "./components/player/Player";
 import {
   ArtistDetails,
   Discover,
@@ -12,9 +14,14 @@ import {
   UserLibrary,
 } from "./pages";
 import AlbumDetails from "./pages/AlbumDetails";
+import { RootState } from "./redux/store";
 
 function App() {
   console.log("running app");
+  const showPlayer = useSelector(
+    (state: RootState) => state.itemToPlay.showPlayer
+  );
+  console.log(showPlayer);
   return (
     <BrowserRouter>
       <Box sx={{ backgroundColor: "common.black" }}>
@@ -23,13 +30,13 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/search/" element={<Search />} />
-          {/* <Route path="/library/" element={<Library />} /> */}
           <Route path="/album/:albumId" element={<AlbumDetails />} />
           <Route path="/track/:trackId" element={<TrackDetails />} />
           <Route path="/playlist/:playlistId" element={<PlaylistDetails />} />
           <Route path="/artist/:artistId" element={<ArtistDetails />} />
           <Route path="/library" element={<UserLibrary />} />
         </Routes>
+        <Player />
       </Box>
     </BrowserRouter>
   );
