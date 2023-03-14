@@ -1,16 +1,13 @@
-import { Box, CardMedia, List, Stack, Typography } from "@mui/material";
-import { Layout, ShowMore } from "../components";
-import PopularTrackItem from "../components/PopularTrackItem";
-import { extractItemProperties, formatDuration, theme } from "../utils";
-
+import { Box, CardMedia, Stack, Typography } from "@mui/material";
+import { Layout } from "../components";
+import { extractItemProperties } from "../utils";
 import useImageColor from "../hooks/useImageColor";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { useGetAlbumQuery, useGetAlbumTracksQuery } from "../redux";
+import { useGetAlbumTracksQuery } from "../redux";
 import PlayButton from "../components/PlayButton";
 import TracksList from "../components/TracksList";
-import { useEffect } from "react";
 import { addTrack } from "../redux/feature/playerSlice";
 
 const AlbumDetails = () => {
@@ -35,11 +32,10 @@ const AlbumDetails = () => {
 
   const playAlbumHandler = () => {
     if (albumTracks) {
-      console.log(albumTracks?.items[1]);
       dispatch(
         addTrack({
           track: albumTracks?.items[0],
-          isPlaying: false,
+          shouldPlay: true,
           nextTrack: null,
           previousTrack: null,
           trackQueue: albumTracks?.items,
@@ -50,10 +46,7 @@ const AlbumDetails = () => {
 
   return (
     <Layout showRightSidebar>
-      <Stack
-        sx={{ width: "100%", minHeight: "100vh", pb: "200px" }}
-        id="topstackkos"
-      >
+      <Stack sx={{ width: "100%", minHeight: "100vh" }}>
         <Box
           component="section"
           sx={{
@@ -104,7 +97,7 @@ const AlbumDetails = () => {
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
 
-          <TracksList tracks={albumTracks?.items} height={400} type="album" />
+          <TracksList tracks={albumTracks?.items} height={380} type="album" />
         </Stack>
         <Box></Box>
       </Stack>
