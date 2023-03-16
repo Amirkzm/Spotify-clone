@@ -1,8 +1,7 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import { ReactNode } from "react";
 import Sidebar from "./Sidebar";
 import RightSidebar from "./RightSidebar";
-import Player from "./player/Player";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
