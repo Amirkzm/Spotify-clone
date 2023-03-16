@@ -9,7 +9,6 @@ interface LikedSongsProps {
 
 const LikedSongs = ({ tracks }: LikedSongsProps) => {
   const [showPlay, setShowPlay] = useState<boolean>(false);
-  console.log(tracks);
 
   const cardsongsDetails = (
     <Box>

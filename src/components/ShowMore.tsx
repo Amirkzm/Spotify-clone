@@ -11,6 +11,7 @@ const ShowMore = (props: ShowMoreProps) => {
   const [showMore, setShowMore] = useState<boolean>(false);
   const [showCollapse, setShowCollapse] = useState<boolean>(true);
   const [childrenHeight, setChildrenHeight] = useState<number>(0);
+  const divRef = useRef<HTMLDivElement>(null);
 
   const measureRef = useCallback((node: HTMLDivElement) => {
     if (node) {
@@ -18,22 +19,11 @@ const ShowMore = (props: ShowMoreProps) => {
       setChildrenHeight(height);
     }
   }, []);
-  //Second-approach
-  // useEffect(() => {
-  //   if (divRef.current) {
-  //     const height = divRef.current.getBoundingClientRect().height;
-  //     if (useCase === "description" && height !== 0 && height < 54) {
-  //       setShowCollapse(false);
-  //     }
-  //     if (useCase === "comment" && height < 80) {
-  //       setShowCollapse(false);
-  //     }
-  //   }
-  // }, [useCase]);
 
   useEffect(() => {
-    if (childrenHeight !== 0 && childrenHeight < minHeight) {
+    if (childrenHeight !== 0 && childrenHeight < 1) {
       setShowCollapse(false);
+      console.log("inside useeffect and children height=", childrenHeight);
     }
   }, [childrenHeight, minHeight]);
 
