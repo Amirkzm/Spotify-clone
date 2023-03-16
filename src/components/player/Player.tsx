@@ -1,29 +1,34 @@
 import { Box, CardMedia, Stack, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTrack, hidePlayer } from "../../redux/feature/playerSlice";
 import { RootState } from "../../redux/store";
 import { extractItemProperties } from "../../utils";
-import PlayButton from "../PlayButton";
 import AudioPlayer from "./AudioPlayer";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Player = () => {
   console.log("running player");
-  const dispatch = useDispatch();
-  const showPlayer = useSelector(
-    (state: RootState) => state.itemToPlay.showPlayer
-  );
-  const { track } = useSelector((state: RootState) => state.itemToPlay);
+  // const dispatch = useDispatch();
 
-  const { songName, artistsName, imageUrl } = extractItemProperties({
+  const { track, showPlayer } = useSelector(
+    (state: RootState) => state.itemToPlay
+  );
+
+  const album = useSelector((state: RootState) => state.savedItem.item);
+
+  if (!track) {
+    return null;
+  }
+
+  const { songName, artistsName } = extractItemProperties({
     item: track,
     itemType: "track",
   });
-
-  useEffect(() => {
-    console.log("inside player useEffect ---------------");
-  }, []);
+  const { imageUrl } = extractItemProperties({
+    item: album,
+    itemType: "album",
+  });
+  console.log("_*_*_*_*_*", imageUrl);
 
   return (
     <Stack
@@ -67,7 +72,6 @@ const Player = () => {
           right: 5,
           "&:hover": { cursor: "pointer" },
         }}
-        onClick={() => dispatch(hidePlayer())}
       >
         <CloseIcon sx={{ fontSize: "24px" }} />
       </Box>
