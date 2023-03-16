@@ -61,7 +61,7 @@ const useLogin = (): useLoginResult => {
         }
       }
     }, 1000);
-  }, []);
+  }, [dispatch, navigate]);
 
   return { oauthHandler };
 };
