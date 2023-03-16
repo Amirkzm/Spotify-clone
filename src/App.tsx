@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Header from "./components/Header";
 import Player from "./components/player/Player";
 import {
   ArtistDetails,
@@ -21,10 +22,10 @@ function App() {
   const showPlayer = useSelector(
     (state: RootState) => state.itemToPlay.showPlayer
   );
-  console.log(showPlayer);
   return (
     <BrowserRouter>
       <Box sx={{ backgroundColor: "common.black" }}>
+        <Header />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
