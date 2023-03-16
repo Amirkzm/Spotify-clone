@@ -83,7 +83,7 @@ export const spotifyApi = createApi({
         if (searchTerm === "") {
           return "";
         }
-        return `search?type=track,album,playlist&limit=10&q=${encodeURIComponent(
+        return `search?type=track,album,playlist,artist&limit=10&q=${encodeURIComponent(
           searchTerm
         )}`;
       },
