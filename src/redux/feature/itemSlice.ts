@@ -13,6 +13,7 @@ const itemSlice = createSlice({
   initialState,
   reducers: {
     addItme: (state: ItemSlice, action: PayloadAction<any>) => {
+      console.log("item has been added");
       state.item = action.payload;
     },
   },
