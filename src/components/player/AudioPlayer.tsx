@@ -18,35 +18,33 @@ import {
 import { getRandomNumber, shuffle } from "../../utils";
 
 const AudioPlayer = () => {
-  // console.log("audioPlayer");
   const dispatch = useDispatch();
-  const { track, shouldPlay, nextTrack, previousTrack, trackQueue } =
-    useSelector((state: RootState) => state.itemToPlay);
+  const { track, shouldPlay, trackQueue } = useSelector(
+    (state: RootState) => state.itemToPlay
+  );
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [volumeValue, setVolumeValue] = useState<number>(50);
   const [repeat, setRepeat] = useState<boolean>(false);
   const [isShuffle, setIsShuffle] = useState<boolean>(false);
-  const [isPlaying, setIsPlaying] = useState<boolean>(shouldPlay);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarFilled = useRef<HTMLDivElement>(null);
   const previousVolumeValue = useRef<number>(50);
+  const [progress, setProgress] = useState<number>(0);
 
-  const trackId = useMemo(() => track?.id, [track?.id]);
-  // const trackID = track?.id;
-  // console.log("((((((********", trackId);
   useEffect(() => {
-    console.log("inside useaeaf ---------------");
+    console.log("inside audioplayer useEffect");
     if (audioRef.current && isPlaying) {
       audioRef.current.play();
     }
-    if (audioRef.current && shouldPlay) {
-      audioRef.current?.play();
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (audioRef.current && shouldPlay && track?.id) {
+      audioRef.current.play();
+      setIsPlaying(true);
     }
-  }, []);
-
-  // useEffect(()=>{
-
-  // },[track])
+  }, [shouldPlay, track?.id]);
 
   const play = () => {
     if (audioRef.current) {
@@ -71,7 +69,14 @@ const AudioPlayer = () => {
             currentTrackIndex < trackQueue.length - 1
               ? trackQueue[currentTrackIndex + 1]
               : trackQueue[0],
-          shouldPlay: isPlaying ? true : false,
+          shouldPlay: isPlaying,
+        })
+      );
+    } else {
+      dispatch(
+        updatePlayer({
+          track: trackQueue[0],
+          shouldPlay: isPlaying,
         })
       );
     }
@@ -128,9 +133,11 @@ const AudioPlayer = () => {
       progressBarFilled.current.style.width = `${progress}%`;
       setCurrentTime(audioRef.current.currentTime);
       if (audioRef.current.currentTime === audioRef.current.duration) {
-        setIsPlaying(false);
         if (repeat) {
+          setIsPlaying(false);
           play();
+        } else {
+          next();
         }
       }
     }
@@ -148,6 +155,7 @@ const AudioPlayer = () => {
   const controlButtonsStyle = {
     fontSize: "42px",
     "&:hover": { cursor: "pointer" },
+    "&:active": { transform: "scale(0.90)" },
   };
 
   const volumeIconStyle = { fontSize: "26px" };
@@ -161,6 +169,21 @@ const AudioPlayer = () => {
     ) : (
       <VolumeUp sx={volumeIconStyle} />
     );
+
+  const seekProgressHandler = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    const progressBar = event.currentTarget;
+    const progressPosition =
+      event.clientX - progressBar.getBoundingClientRect().left;
+    const progressBarWidth = progressBar.clientWidth;
+    const progressPercentage = (progressPosition / progressBarWidth) * 100;
+    setProgress(progressPercentage);
+    if (audioRef.current) {
+      audioRef.current.currentTime =
+        (audioRef.current.duration / 100) * progressPercentage;
+    }
+  };
   return (
     <Stack
       sx={{
@@ -245,7 +268,9 @@ const AudioPlayer = () => {
             bgcolor: "gray",
             borderRadius: "5px",
             width: "100%",
+            "&:hover": { cursor: "pointer" },
           }}
+          onClick={seekProgressHandler}
         >
           <Box
             sx={{ height: "100%", bgcolor: "#ddd", borderRadius: "5px" }}
