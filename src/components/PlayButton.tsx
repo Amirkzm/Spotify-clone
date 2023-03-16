@@ -14,6 +14,8 @@ const PlayButton = ({ sx, isPlaying }: PlayButtonProps) => {
       <Box
         sx={{
           "&:hover": { cursor: "pointer " },
+          "&:active": { transform: "Scale(0.90)" },
+          width: "50px",
         }}
       >
         {isPlaying ? <PauseCircleIcon sx={sx} /> : <PlayCircleIcon sx={sx} />}
