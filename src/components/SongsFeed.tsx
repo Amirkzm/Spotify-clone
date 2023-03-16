@@ -4,7 +4,7 @@ import { getAllArtists } from "../utils";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addItme } from "../redux/feature/itemSlice";
-import { addTrack } from "../redux/feature/playerSlice";
+import { addTrack, updatePlayer } from "../redux/feature/playerSlice";
 
 interface SongsFeedProps {
   songs: any;
@@ -15,17 +15,16 @@ interface SongType {
 }
 
 const SongsFeed = ({ songs }: SongsFeedProps) => {
+  console.log("song feed is running");
   const dispatch = useDispatch();
 
   const trackClickHandler = (track: any) => {
+    console.log("track clicked");
     dispatch(addItme(track));
     dispatch(
-      addTrack({
+      updatePlayer({
         track: track,
-        isPlaying: true,
-        nextTrack: null,
-        previousTrack: null,
-        trackQueue: [],
+        shouldPlay: false,
       })
     );
   };

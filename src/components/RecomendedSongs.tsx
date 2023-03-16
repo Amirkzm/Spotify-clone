@@ -1,5 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { useGetRecommendationQuery, useGetTopArtistsQuery } from "../redux";
+import Error from "./Error";
+import Loader from "./Loader";
 import SongsFeed from "./SongsFeed";
 
 const RecomendedSongs = () => {
@@ -15,12 +17,12 @@ const RecomendedSongs = () => {
     isError,
   } = useGetRecommendationQuery({ seed: data?.items[0]?.id });
 
-  if (isLoading) {
-    return <p>loading Recomended Songs for you</p>;
+  if (isLoading || artistLoading) {
+    return <Loader />;
   }
 
   if (isError) {
-    return <p>error happend while loading Recomended Songs for you</p>;
+    return <Error />;
   }
   return (
     <Stack>

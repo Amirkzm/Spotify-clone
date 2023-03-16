@@ -1,16 +1,18 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useGetTopArtistsQuery } from "../redux";
 import ArtistItem from "./ArtistItem";
+import Error from "./Error";
+import Loader from "./Loader";
 
 const TopArtists = () => {
   const { data, isLoading, isError } = useGetTopArtistsQuery();
 
   if (isLoading) {
-    return <p>loading New released songs</p>;
+    return <Loader />;
   }
 
   if (isError) {
-    return <p>error happend while loading New released songs</p>;
+    return <Error />;
   }
 
   return (

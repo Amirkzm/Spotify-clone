@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useGetAlbumTracksQuery, useGetNewReleasesQuery } from "../redux";
 import { addItme } from "../redux/feature/itemSlice";
 import { getAllArtists } from "../utils";
+import Error from "./Error";
+import Loader from "./Loader";
 import ReleaseItem from "./ReleaseItem";
 
 const NewReleasesTrack = () => {
@@ -14,11 +16,11 @@ const NewReleasesTrack = () => {
   });
 
   if (isLoading) {
-    return <p>loading New released songs</p>;
+    return <Loader />;
   }
 
   if (isError) {
-    return <p>error happend while loading New released songs</p>;
+    return <Error />;
   }
 
   const releaseClickHandler = (album: any) => {
@@ -26,8 +28,10 @@ const NewReleasesTrack = () => {
   };
 
   return (
-    <Stack sx={{}}>
-      <Typography>New Releases</Typography>
+    <Stack sx={{ pt: 10 }}>
+      <Typography variant="h2" sx={{ transform: "translateX(20px)" }}>
+        New Releases
+      </Typography>
       {data?.albums?.items.map((album: any) => (
         <Link
           to={`/album/${album?.id}`}

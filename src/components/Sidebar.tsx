@@ -11,12 +11,9 @@ import { Logo } from "../assets";
 import {
   HomeOutlined,
   SettingsOverscanOutlined,
-  StarBorderPurple500Outlined,
-  TagOutlined,
   LibraryMusicOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {

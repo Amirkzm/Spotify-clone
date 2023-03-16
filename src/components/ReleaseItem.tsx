@@ -1,9 +1,9 @@
-import { Box, CardMedia, IconButton, Stack, Typography } from "@mui/material";
+import { CardMedia, IconButton, Stack, Typography } from "@mui/material";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import React from "react";
 import { useDispatch } from "react-redux";
 import { useGetAlbumTracksQuery } from "../redux";
-import { addTrack } from "../redux/feature/playerSlice";
+import { updatePlayer } from "../redux/feature/playerSlice";
+import { addItme } from "../redux/feature/itemSlice";
 
 interface ReleaseItemProps {
   albumName: string;
@@ -14,14 +14,15 @@ interface ReleaseItemProps {
 const ReleaseItem = (props: ReleaseItemProps) => {
   const { albumName, artist, imageUrl, albumId } = props;
 
-  const { data: album, isLoading, isError } = useGetAlbumTracksQuery(albumId);
+  const { data: album } = useGetAlbumTracksQuery(albumId);
 
   const dispatch = useDispatch();
   const handlePlay = () => {
+    console.log(album);
     if (album) {
       const trackList = album?.items;
       dispatch(
-        addTrack({
+        updatePlayer({
           track: trackList[0],
           shouldPlay: true,
           previousTrack: null,
@@ -30,6 +31,7 @@ const ReleaseItem = (props: ReleaseItemProps) => {
           showPlayer: true,
         })
       );
+      dispatch(addItme(album));
     }
   };
 

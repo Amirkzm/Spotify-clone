@@ -29,7 +29,6 @@ const SongCard = (props: SongCardProps) => {
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.5)",
       }}
     >
-      {/* <CardActionArea> */}
       <CardMedia
         component="img"
         height="180"

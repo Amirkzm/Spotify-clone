@@ -5,7 +5,7 @@ import { formatDuration, getAllArtists } from "../utils";
 import ExplicitIcon from "./ExplicitIcon";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useDispatch, useSelector } from "react-redux";
-import { updateTrack } from "../redux/feature/playerSlice";
+import { updatePlayer } from "../redux/feature/playerSlice";
 import { RootState } from "../redux/store";
 
 interface TrackDetailsProps {
@@ -21,8 +21,10 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
 
   const addTrackToStore = () => {
     dispatch(
-      updateTrack({
+      updatePlayer({
         track: trackItem,
+        shouldPlay: true,
+        showPlayer: true,
       })
     );
   };
@@ -35,7 +37,9 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
         position: "relative",
         bgcolor:
           currentPlayingTrack?.id === trackItem?.id ? "hsla(0,0%,100%,.2)" : "",
-        "&:hover": { bgcolor: "hsla(0,0%,100%,.2)" },
+        "&:hover": {
+          bgcolor: "hsla(0,0%,100%,.2)",
+        },
       }}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
@@ -50,6 +54,7 @@ const PopularTrackItem = ({ trackItem }: TrackDetailsProps) => {
               sx={{
                 fontSize: "48px",
                 "&:hover": { fill: "#f74336", cursor: "pointer" },
+                "&:active": { transform: "scale(0.90)" },
               }}
             />
           </ListItemIcon>

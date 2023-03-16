@@ -12,7 +12,6 @@ const PlaylistFeed = ({ playlists }: PlaylistFeedProps) => {
   const playlistClickHandler = (playlist: any) => {
     dispatch(addItme(playlist));
   };
-  console.log(playlists);
   return (
     <Stack
       sx={{
@@ -22,7 +21,6 @@ const PlaylistFeed = ({ playlists }: PlaylistFeedProps) => {
         justifyContent: "start",
         pt: 10,
       }}
-      id="root playlist feed"
     >
       {playlists.map((playlist: any, index: number) => (
         <Link
