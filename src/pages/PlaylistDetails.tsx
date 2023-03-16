@@ -10,13 +10,16 @@ import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
 import { useGetPlaylistTracksQuery } from "../redux";
 import TracksList from "../components/TracksList";
-import { addTrack } from "../redux/feature/playerSlice";
+import { addTrack, updatePlayer } from "../redux/feature/playerSlice";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const PlaylistDetails = () => {
+  console.log("playlistdetails");
   const { playlistId } = useParams();
   const dispatch = useDispatch();
   const playlistItem = useSelector((state: RootState) => state.savedItem.item);
-  console.log(playlistItem);
+
   const {
     data: playlistTracks,
     isLoading,
@@ -29,17 +32,21 @@ const PlaylistDetails = () => {
   });
   console.log("imageurl is = ", imageUrl);
   const heroBackground = useImageColor(imageUrl);
-  if (isLoading || isError) {
-    return <p>loading or error</p>;
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <Error />;
   }
 
   const listOfTracks = playlistTracks?.items.map((item: any) => item?.track);
 
   const playlistPlayHandler = () => {
     dispatch(
-      addTrack({
+      updatePlayer({
         track: listOfTracks[0],
-        isPlaying: false,
+        shouldPlay: true,
         nextTrack: null,
         previousTrack: null,
         trackQueue: listOfTracks,

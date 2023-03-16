@@ -1,12 +1,12 @@
 import { Box, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Layout, ShowMore } from "../components";
 import ArtistItem from "../components/ArtistItem";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
 import PlayButton from "../components/PlayButton";
-import PopularTrackItem from "../components/PopularTrackItem";
 import TracksList from "../components/TracksList";
 import useImageColor from "../hooks/useImageColor";
 import {
@@ -14,7 +14,8 @@ import {
   useGetArtistTopTracksQuery,
   useGetRelatedArtistsQuery,
 } from "../redux";
-import { addTrack } from "../redux/feature/playerSlice";
+import { addTrack, updatePlayer } from "../redux/feature/playerSlice";
+import { RootState } from "../redux/store";
 import { extractItemProperties, theme } from "../utils";
 
 const ArtistDetails = () => {
@@ -43,29 +44,28 @@ const ArtistDetails = () => {
     isError: recomError,
   } = useGetRelatedArtistsQuery(artistId as string);
 
-  useEffect(() => {
+  if (isLoading || recomLoading || artistLoading) {
+    return <Loader />;
+  }
+
+  if (recomError || isError || artistError) {
+    return <Error />;
+  }
+
+  const playButtonHandler = () => {
     if (topTracks) {
       dispatch(
-        addTrack({
+        updatePlayer({
           track: topTracks?.tracks[0],
-          isPlaying: false,
+          shouldPlay: true,
           nextTrack: null,
           previousTrack: null,
           trackQueue: topTracks?.tracks,
+          showPlayer: true,
         })
       );
     }
-  }, [topTracks, dispatch]);
-  if (
-    isError ||
-    isLoading ||
-    recomLoading ||
-    recomError ||
-    artistLoading ||
-    artistError
-  ) {
-    return <p>is loading or error</p>;
-  }
+  };
 
   return (
     <Layout showRightSidebar>
@@ -124,7 +124,7 @@ const ArtistDetails = () => {
             direction={"row"}
             sx={{ p: 3, justifyContent: "space-between" }}
           >
-            <Stack direction={"row"}>
+            <Stack direction={"row"} onClick={playButtonHandler}>
               <PlayButton sx={{ fontSize: "68px" }} />
             </Stack>
             <Typography variant="body1" sx={{ alignSelf: "center" }}>

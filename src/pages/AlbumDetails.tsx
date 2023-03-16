@@ -9,6 +9,8 @@ import { useGetAlbumTracksQuery } from "../redux";
 import PlayButton from "../components/PlayButton";
 import TracksList from "../components/TracksList";
 import { addTrack } from "../redux/feature/playerSlice";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const AlbumDetails = () => {
   const { albumId } = useParams();
@@ -29,6 +31,9 @@ const AlbumDetails = () => {
 
   const heroBackground = useImageColor(imageUrl);
   const releaseYear: string = releaseDate.split("-")[0];
+  if (isError) {
+    return <Error />;
+  }
 
   const playAlbumHandler = () => {
     if (albumTracks) {
@@ -97,7 +102,11 @@ const AlbumDetails = () => {
             <PlayButton sx={{ fontSize: "45px" }} />
           </Box>
 
-          <TracksList tracks={albumTracks?.items} height={380} type="album" />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <TracksList tracks={albumTracks?.items} height={380} type="album" />
+          )}
         </Stack>
         <Box></Box>
       </Stack>

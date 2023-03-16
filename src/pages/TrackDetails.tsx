@@ -12,13 +12,17 @@ import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
 import TracksList from "../components/TracksList";
 import StyledDot from "../components/StyledDot";
-import { addTrack } from "../redux/feature/playerSlice";
+import { addTrack, updatePlayer } from "../redux/feature/playerSlice";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const TrackDetails = () => {
   const { trackId } = useParams();
   const dispatch = useDispatch();
   console.log("trackDetails running");
-  const trackItem = useSelector((state: RootState) => state.itemToPlay.track);
+  const { track, shouldPlay } = useSelector(
+    (state: RootState) => state.itemToPlay
+  );
   const {
     data: trackData,
     isLoading,
@@ -26,14 +30,14 @@ const TrackDetails = () => {
   } = useGetTrackQuery(trackId as string);
 
   const {
-    imageUrl = "",
-    artistId = "",
-    releaseDate = "",
-    songName = "",
-    artistsName = "",
-    trackDuration = "",
+    imageUrl,
+    artistId,
+    releaseDate,
+    songName,
+    artistsName,
+    trackDuration,
   } = extractItemProperties({
-    item: trackData || trackItem,
+    item: trackData || track,
     itemType: "track",
   });
   const {
@@ -42,38 +46,31 @@ const TrackDetails = () => {
     isError: topTracksError,
   } = useGetArtistTopTracksQuery({ artistId: artistId });
 
-  useEffect(() => {
-    if (topTracksData) {
-      dispatch(
-        addTrack({
-          track: trackItem,
-          shouldPlay: false,
-          nextTrack: null,
-          previousTrack: null,
-          trackQueue: topTracksData?.tracks,
-        })
-      );
-    }
-  }, [dispatch, topTracksData, trackItem]);
-
   const heroBackground = useImageColor(imageUrl);
 
-  if (topTracksLoading || topTracksError) {
-    return <p>is loading or error happened</p>;
+  if (topTracksLoading || isLoading) {
+    return <Loader />;
+  }
+  if (topTracksError || isError) {
+    return <Error />;
   }
   const releaseYear: string = releaseDate.split("-")[0];
 
   const playTrackHandler = () => {
+    console.log(track);
+    console.log(topTracksData?.tracks);
     if (topTracksData) {
       dispatch(
-        addTrack({
-          track: trackItem,
+        updatePlayer({
+          track: track,
           shouldPlay: true,
           nextTrack: null,
           previousTrack: null,
           trackQueue: topTracksData?.tracks,
         })
       );
+    } else {
+      console.log("data not available");
     }
   };
 

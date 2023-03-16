@@ -1,6 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 import { Layout, PlaylistFeed } from "../components";
+import Error from "../components/Error";
 import LikedSongs from "../components/LikedSongs";
+import Loader from "../components/Loader";
 import { useGetPlaylistsQuery, useGetSavedTracksQuery } from "../redux";
 
 const UserLibrary = () => {
@@ -14,13 +16,11 @@ const UserLibrary = () => {
     isLoading: playlistsLoading,
     isError: playlistsError,
   } = useGetPlaylistsQuery();
-  if (
-    savedTracksError ||
-    savedTracksLoading ||
-    playlistsError ||
-    playlistsLoading
-  ) {
-    return <p>loading or error</p>;
+  if (savedTracksLoading || playlistsLoading) {
+    return <Loader />;
+  }
+  if (savedTracksError || playlistsError) {
+    return <Error />;
   }
   return (
     <Layout showRightSidebar>

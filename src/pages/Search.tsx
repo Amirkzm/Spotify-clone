@@ -1,11 +1,4 @@
-import {
-  Box,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
 import {
@@ -14,6 +7,9 @@ import {
   useSearchQuery,
 } from "../redux";
 import { AlbumFeed, Layout, PlaylistFeed, SongsFeed } from "../components";
+import ArtistFeed from "../components/ArtistFeed";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const Search = () => {
   const [query, setQuery] = useState<string>("");
@@ -26,7 +22,6 @@ const Search = () => {
   } = useGetRecommendationQuery({
     seed: data?.items[0]?.id || "",
   });
-  console.log(recommendedData);
   const {
     data: searchData,
     isLoading: isSearchLoading,
@@ -46,7 +41,11 @@ const Search = () => {
   };
 
   if (isRecommendedLoading || isSearchLoading || isLoading) {
-    return <p>loading New released songs</p>;
+    return <Loader />;
+  }
+
+  if (isSearchError || isError) {
+    return <Error />;
   }
 
   if (isRecommendedError) {
@@ -80,10 +79,20 @@ const Search = () => {
     </Stack>
   );
 
+  const artists = (
+    <Stack>
+      <Typography variant="h1" sx={{ position: "relative", top: 50 }}>
+        Artists
+      </Typography>
+      <ArtistFeed artists={searchData?.artists?.items} />
+    </Stack>
+  );
+
   let componentToRender = null;
   const searchResult =
     query !== "" ? (
       <Stack gap={4}>
+        {artists}
         {albums}
         {tracks}
         {playlists}
@@ -100,7 +109,6 @@ const Search = () => {
           <br />
           We have some suggestions for you
         </Typography>
-        {/* <Typography variant="h2">We have some suggestions for you</Typography> */}
         <SongsFeed songs={recommendedData?.tracks} />
       </Stack>
     );
@@ -110,7 +118,7 @@ const Search = () => {
 
   return (
     <Layout>
-      <Stack sx={{ mt: 5, gap: 2 }} alignItems="">
+      <Stack sx={{ mt: 5, gap: 2, minHeight: "80vh" }} alignItems="">
         <Typography variant="h1" sx={{ mt: 20 }}>
           Find a music
         </Typography>

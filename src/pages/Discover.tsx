@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { Layout, SongsFeed } from "../components";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
 import { useGetRecommendationQuery, useGetTopArtistsQuery } from "../redux";
 import { genresType } from "../utils";
 import { genres } from "../utils";
@@ -31,11 +33,11 @@ const Discover = () => {
   };
 
   if (isLoading || artistLoading) {
-    return <p>Loading</p>;
+    return <Loader />;
   }
 
   if (isError || artistError) {
-    return <p>Error happened while connecting to server</p>;
+    return <Error />;
   }
   console.log(data);
 

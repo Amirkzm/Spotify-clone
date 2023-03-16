@@ -1,6 +1,8 @@
 import { Stack, Typography } from "@mui/material";
 import React from "react";
 import { AlbumFeed, Layout, SongsFeed } from "../components";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
 import { useGetSavedAlbumsQuery, useGetSavedTracksQuery } from "../redux";
 
 const Library = () => {
@@ -15,17 +17,16 @@ const Library = () => {
     isError: tracksError,
   } = useGetSavedTracksQuery({});
   if (albumError || tracksError) {
-    return <p>error happened</p>;
+    return <Error />;
   }
 
   if (albumLoading || tracksLoading) {
-    return <p>loading items</p>;
+    return <Loader />;
   }
 
   const albums = albumData?.items.map((item: any) => item?.album);
   const tracks = tracksData?.items.map((item: any) => item?.track);
-  console.log(albums);
-  console.log(tracks);
+
   return (
     <Layout>
       <Stack gap={3}>
