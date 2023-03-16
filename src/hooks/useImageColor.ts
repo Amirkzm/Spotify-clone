@@ -10,13 +10,13 @@ const useImageColor = (imageUrl: string): string | undefined => {
   } = useColor(imageUrl, "hex", { crossOrigin: "anonymous" });
 
   if (imageIsLoading) {
-    console.log("image is loading");
+    // console.log("image is loading");
   }
   if (imageIsError) {
-    console.log("an error with image happened");
+    // console.log("an error with image happened");
   }
   if (heroBackgroundColor) {
-    console.log("backgeround color = ", heroBackgroundColor);
+    // console.log("backgeround color = ", heroBackgroundColor);
   }
 
   const heroBackground =
