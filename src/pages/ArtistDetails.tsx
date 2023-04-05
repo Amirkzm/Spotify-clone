@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Layout, ShowMore } from "../components";
+import { Layout } from "../components";
 import ArtistItem from "../components/ArtistItem";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
@@ -14,13 +14,15 @@ import {
   useGetArtistTopTracksQuery,
   useGetRelatedArtistsQuery,
 } from "../redux";
-import { addTrack, updatePlayer } from "../redux/feature/playerSlice";
-import { RootState } from "../redux/store";
+import { updatePlayer } from "../redux/feature/playerSlice";
 import { extractItemProperties, theme } from "../utils";
 
 const ArtistDetails = () => {
   const { artistId } = useParams();
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const {
     data: artist,
     isLoading: artistLoading,
@@ -69,27 +71,30 @@ const ArtistDetails = () => {
 
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ width: "100%", minHeight: "100vh" }} id="root stack artist">
+      <Stack
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+        }}
+        id="root stack artist"
+      >
         <Stack
-          direction={"row"}
+          direction={isMobile ? "column" : "row"}
           sx={{
             background: `linear-gradient(to right,${backgroundColor},#243f68)`,
           }}
         >
-          <Box sx={{ alignSelf: "center" }}>
-            <ArtistItem imageUrl={imageUrl} size={400} shouldNavigate={false} />
+          <Box>
+            <ArtistItem imageUrl={imageUrl} size={400} />
           </Box>
-          <Box
+          <Stack
             sx={{
-              minHeight: 400,
-              display: "flex",
-              flexDirection: "column",
               justifyContent: "space-around",
               gap: 2,
               p: 4,
             }}
           >
-            <Box>
+            <Stack>
               <Typography
                 variant="body1"
                 sx={{
@@ -106,11 +111,11 @@ const ArtistDetails = () => {
               >
                 {artistsName}
               </Typography>
-            </Box>
+            </Stack>
             <Typography variant="h2" fontWeight={"bold"}>
               {followers} follow {artistsName}
             </Typography>
-          </Box>
+          </Stack>
         </Stack>
         <Stack
           sx={{
@@ -142,12 +147,11 @@ const ArtistDetails = () => {
           <Stack
             direction={"row"}
             gap={1}
-            sx={{ overflow: "scroll", maxWidth: "100%" }}
+            sx={{ overflow: "scroll", maxWidth: isMobile ? "100vw" : "80vw" }}
           >
             {recommendedArtists?.artists.map((artist: any) => (
               <ArtistItem
                 imageUrl={artist?.images[1]?.url}
-                artistId={artist?.id}
                 size={200}
                 key={artist?.id}
               />
