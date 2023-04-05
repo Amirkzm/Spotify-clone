@@ -1,7 +1,6 @@
-import { Box, CardMedia, List, Stack, Typography } from "@mui/material";
-import { Layout, ShowMore } from "../components";
-import PopularTrackItem from "../components/PopularTrackItem";
-import { extractItemProperties, formatDuration, theme } from "../utils";
+import { Box, CardMedia, Stack, Typography } from "@mui/material";
+import { Layout } from "../components";
+import { extractItemProperties } from "../utils";
 
 import useImageColor from "../hooks/useImageColor";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,7 @@ import PlayButton from "../components/PlayButton";
 import { useParams } from "react-router-dom";
 import { useGetPlaylistTracksQuery } from "../redux";
 import TracksList from "../components/TracksList";
-import { addTrack, updatePlayer } from "../redux/feature/playerSlice";
+import { updatePlayer } from "../redux/feature/playerSlice";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
 
