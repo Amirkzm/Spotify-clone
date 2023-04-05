@@ -34,12 +34,7 @@ const ArtistFeed = ({ artists }: albumsFeedProps) => {
             key={artist.id}
             onClick={() => artistClickHandler(artist)}
           >
-            <ArtistItem
-              size={200}
-              artistId={artist?.id}
-              shouldNavigate
-              imageUrl={artist?.images[1]?.url}
-            />
+            <ArtistItem size={200} imageUrl={artist?.images[1]?.url} />
           </Link>
         );
       })}
