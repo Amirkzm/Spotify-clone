@@ -6,7 +6,7 @@ import { authenticateUser, denyAccess } from "../redux/feature/userAuth";
 import { useNavigate } from "react-router-dom";
 
 const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
-const REDIRECT_URI = "http://localhost:5173";
+const REDIRECT_URI = "https://spotify-ocean.vercel.app/";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPE =
