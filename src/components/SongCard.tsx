@@ -1,12 +1,4 @@
-import {
-  Box,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { CardContent, CardMedia, Stack, Typography } from "@mui/material";
 
 interface SongCardProps {
   name: string;
