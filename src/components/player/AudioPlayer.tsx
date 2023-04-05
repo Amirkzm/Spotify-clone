@@ -30,7 +30,6 @@ const AudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const progressBarFilled = useRef<HTMLDivElement>(null);
   const previousVolumeValue = useRef<number>(50);
-  const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
     console.log("inside audioplayer useEffect");
@@ -178,7 +177,6 @@ const AudioPlayer = () => {
       event.clientX - progressBar.getBoundingClientRect().left;
     const progressBarWidth = progressBar.clientWidth;
     const progressPercentage = (progressPosition / progressBarWidth) * 100;
-    setProgress(progressPercentage);
     if (audioRef.current) {
       audioRef.current.currentTime =
         (audioRef.current.duration / 100) * progressPercentage;
@@ -196,7 +194,11 @@ const AudioPlayer = () => {
         transform: "translateX(-50%)",
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
+        maxWidth: "600px",
+        px: 5,
       }}
+      id="playertoot"
     >
       <audio
         ref={audioRef}
@@ -205,7 +207,7 @@ const AudioPlayer = () => {
       >
         <source src={track?.preview_url} type="audio/mpeg" />
       </audio>
-      <Box sx={{ display: "flex", gap: 2, transform: "translateX(30%)" }}>
+      <Box sx={{ display: "flex", gap: 2, justifyContent: "center" }}>
         <Box sx={{ alignSelf: "center" }} onClick={shuffleButtonHandler}>
           {isShuffle ? (
             <ShuffleOn
@@ -242,25 +244,13 @@ const AudioPlayer = () => {
       </Box>
       <Stack
         direction={"row"}
-        sx={{ width: "100%", alignItems: "center", gap: 2 }}
+        sx={{
+          width: "100%",
+          alignItems: "center",
+          gap: 2,
+          minWidth: "350px",
+        }}
       >
-        <Box
-          sx={{ "&:hover": { cursor: "pointer" } }}
-          onClick={clickOnVolumeIconHandler}
-        >
-          {volumeIcon}
-        </Box>
-        <Slider
-          value={volumeValue}
-          onChange={handleVolumeChange}
-          aria-label="Volume"
-          min={0}
-          max={100}
-          sx={{
-            color: "#ddd",
-            width: "20%",
-          }}
-        />
         <Typography variant="body2">00:{Math.ceil(currentTime)}</Typography>
         <Box
           sx={{
@@ -280,6 +270,23 @@ const AudioPlayer = () => {
         <Typography variant="body2">
           00:{Math.ceil(audioRef.current?.duration ?? 0)}
         </Typography>
+        <Box
+          sx={{ "&:hover": { cursor: "pointer" } }}
+          onClick={clickOnVolumeIconHandler}
+        >
+          {volumeIcon}
+        </Box>
+        <Slider
+          value={volumeValue}
+          onChange={handleVolumeChange}
+          aria-label="Volume"
+          min={0}
+          max={100}
+          sx={{
+            color: "#ddd",
+            width: "20%",
+          }}
+        />
       </Stack>
     </Stack>
   );
