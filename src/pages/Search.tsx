@@ -44,12 +44,8 @@ const Search = () => {
     return <Loader />;
   }
 
-  if (isSearchError || isError) {
+  if (isError) {
     return <Error />;
-  }
-
-  if (isRecommendedError) {
-    return <p>error happend while loading New released songs</p>;
   }
 
   const playlists = (
