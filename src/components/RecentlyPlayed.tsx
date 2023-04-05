@@ -1,5 +1,4 @@
 import { Stack, Typography } from "@mui/material";
-import React from "react";
 import { useGetRecentlyPlayedTracksQuery } from "../redux";
 import { removeDuplicates } from "../utils";
 import Error from "./Error";
