@@ -57,15 +57,11 @@ const TrackDetails = () => {
   const releaseYear: string = releaseDate.split("-")[0];
 
   const playTrackHandler = () => {
-    console.log(track);
-    console.log(topTracksData?.tracks);
     if (topTracksData) {
       dispatch(
         updatePlayer({
           track: track,
           shouldPlay: true,
-          nextTrack: null,
-          previousTrack: null,
           trackQueue: topTracksData?.tracks,
         })
       );
