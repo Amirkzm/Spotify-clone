@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Layout, SongsFeed } from "../components";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
