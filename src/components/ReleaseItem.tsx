@@ -43,7 +43,6 @@ const ReleaseItem = (props: ReleaseItemProps) => {
         p: 3,
         pb: 0,
         position: "relative",
-        boxShadow: "8px 8px 8px rgba(0,0,0,0.8)",
       }}
     >
       <Stack
