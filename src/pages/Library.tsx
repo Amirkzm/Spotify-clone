@@ -1,5 +1,4 @@
 import { Stack, Typography } from "@mui/material";
-import React from "react";
 import { AlbumFeed, Layout, SongsFeed } from "../components";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
@@ -16,6 +15,7 @@ const Library = () => {
     isLoading: tracksLoading,
     isError: tracksError,
   } = useGetSavedTracksQuery({});
+
   if (albumError || tracksError) {
     return <Error />;
   }
@@ -29,7 +29,7 @@ const Library = () => {
 
   return (
     <Layout>
-      <Stack gap={3}>
+      <Stack gap={3} sx={{ minHeight: "100vh" }} id="kirehendiekhar">
         <Stack>
           <Typography variant="h1" sx={{ position: "relative", top: 50 }}>
             Saved Albums
