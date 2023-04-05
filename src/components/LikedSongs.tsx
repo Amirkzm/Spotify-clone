@@ -1,7 +1,10 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { updatePlayer } from "../redux/feature/playerSlice";
 import { getAllArtists } from "../utils";
 import PlayButton from "./PlayButton";
+import StyledDot from "./StyledDot";
 
 interface LikedSongsProps {
   tracks: any;
@@ -9,26 +12,33 @@ interface LikedSongsProps {
 
 const LikedSongs = ({ tracks }: LikedSongsProps) => {
   const [showPlay, setShowPlay] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const likedSongPlayHandler = () => {
+    dispatch(
+      updatePlayer({
+        track: tracks?.items[0]?.track,
+        shouldPlay: true,
+        nextTrack: null,
+        previousTrack: null,
+        trackQueue: tracks?.items.map((item: any) => item?.track),
+        showPlayer: true,
+      })
+    );
+  };
 
   const cardsongsDetails = (
-    <Box>
-      {tracks?.items?.map((track: any, index: number) => {
-        return (
-          <Box component={"span"} key={track?.track?.id + index}>
-            <Typography component={"span"} fontWeight="bold" variant="body1">
-              {" "}
-              {getAllArtists(track?.track?.artists)}{" "}
-            </Typography>
-            <Typography component="span">{track?.track?.name}</Typography>
-            <Typography
-              component={"span"}
-              sx={{ fontSize: "88px", fontWeight: "800" }}
-            >
-              .
-            </Typography>
-          </Box>
-        );
-      })}
+    <Box sx={{ height: "100%" }}>
+      {tracks?.items?.map((track: any, index: number) => (
+        <Box component={"span"} key={track?.track?.id + index}>
+          <Typography component={"span"} fontWeight="bold" variant="body1">
+            {" "}
+            {getAllArtists(track?.track?.artists)}{" "}
+          </Typography>
+          <Typography component="span">{track?.track?.name}</Typography>
+          <StyledDot />
+        </Box>
+      ))}
       {showPlay && (
         <Box
           sx={{
@@ -38,6 +48,7 @@ const LikedSongs = ({ tracks }: LikedSongsProps) => {
             top: "95%",
             right: "5%",
           }}
+          onClick={likedSongPlayHandler}
         >
           <PlayButton sx={{ fontSize: "48px" }} />
         </Box>
@@ -46,10 +57,9 @@ const LikedSongs = ({ tracks }: LikedSongsProps) => {
   );
   return (
     <Stack
-      gap={3}
       sx={{
         maxWidth: "425px",
-        maxHeight: "278px",
+        height: "278px",
         background: "linear-gradient(to bottom right, #001029, #134c88)",
         borderRadius: "10px",
         p: 5,
