@@ -1,14 +1,22 @@
-import { Box, CardMedia, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  CardMedia,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { addTrack, hidePlayer } from "../../redux/feature/playerSlice";
+import { hidePlayer } from "../../redux/feature/playerSlice";
 import { RootState } from "../../redux/store";
 import { extractItemProperties } from "../../utils";
 import AudioPlayer from "./AudioPlayer";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Player = () => {
-  console.log("running player");
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down(600));
 
   const { track, showPlayer } = useSelector(
     (state: RootState) => state.itemToPlay
@@ -28,7 +36,6 @@ const Player = () => {
     item: album,
     itemType: "album",
   });
-  console.log("_*_*_*_*_*", imageUrl);
 
   return (
     <Stack
@@ -39,10 +46,16 @@ const Player = () => {
         width: "100%",
         height: "100px",
         bgcolor: "primary.main",
-        display: showPlayer ? "flex" : "none",
+        display: showPlayer ? "" : "none",
+        justifyContent: "flex-start",
+        alignItems: "center",
       }}
     >
-      <Stack direction={"row"} gap={1} sx={{ ml: 3 }}>
+      <Stack
+        direction={"row"}
+        gap={1}
+        sx={{ ml: 3, display: isMobile ? "none" : "" }}
+      >
         <CardMedia
           component="img"
           height="60"
@@ -57,11 +70,9 @@ const Player = () => {
       </Stack>
       <Box
         sx={{
-          position: "absolute",
-          left: "0%",
-          top: "10%",
-          width: "100%",
+          flex: "1 1 auto",
         }}
+        id="plplpl"
       >
         <AudioPlayer />
       </Box>
@@ -72,6 +83,7 @@ const Player = () => {
           right: 5,
           "&:hover": { cursor: "pointer" },
         }}
+        onClick={() => dispatch(hidePlayer())}
       >
         <CloseIcon sx={{ fontSize: "24px" }} />
       </Box>
