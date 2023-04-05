@@ -43,7 +43,9 @@ const Sidebar = () => {
               mb: 20,
               pt: 5,
               bgcolor: "primary.dark",
+              "&:hover": { cursor: "pointer" },
             }}
+            onClick={() => handleChangeNavigation("/home")}
           >
             <img src={Logo} alt="logo" style={{ borderRadius: "50%" }} />
           </ListSubheader>
