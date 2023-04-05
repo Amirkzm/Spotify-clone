@@ -6,7 +6,7 @@ import { authenticateUser, denyAccess } from "../redux/feature/userAuth";
 import { useNavigate } from "react-router-dom";
 
 const CLIENT_ID = "dbc067a0f1114d12bf3dd9e191610d9d";
-const REDIRECT_URI = "http://localhost:5173/home";
+const REDIRECT_URI = "http://localhost:5173";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 const SCOPE =
@@ -36,7 +36,6 @@ const useLogin = (): useLoginResult => {
     const height = 730;
     const left = window.screenX + window.outerWidth / 2 - width / 2;
     const top = window.screenY + window.outerHeight / 2 - height / 2;
-    console.log(authUrl);
     const popup = window.open(
       authUrl,
       "Spotify",
