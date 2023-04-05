@@ -51,7 +51,12 @@ const AlbumDetails = () => {
 
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ width: "100%", minHeight: "100vh" }}>
+      <Stack
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+        }}
+      >
         <Box
           component="section"
           sx={{
@@ -108,7 +113,6 @@ const AlbumDetails = () => {
             <TracksList tracks={albumTracks?.items} height={380} type="album" />
           )}
         </Stack>
-        <Box></Box>
       </Stack>
     </Layout>
   );
