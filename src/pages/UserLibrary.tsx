@@ -24,7 +24,7 @@ const UserLibrary = () => {
   }
   return (
     <Layout showRightSidebar>
-      <Stack sx={{ p: 3 }} gap={2}>
+      <Stack sx={{ p: 3, minHeight: "100vh" }} gap={2}>
         <Typography variant="h1">Playlists</Typography>
         <LikedSongs tracks={savedTracks} />
         <PlaylistFeed playlists={playlistsData?.items} />
