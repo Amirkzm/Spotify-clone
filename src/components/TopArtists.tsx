@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
 import { MouseEventHandler, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -72,7 +72,7 @@ const TopArtists = () => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 2, maxWidth: { xs: "95vw", md: "77vw" }, pr: 0 }}>
       <Typography variant="h1">Your Top artists</Typography>
       <Stack
         direction="row"
