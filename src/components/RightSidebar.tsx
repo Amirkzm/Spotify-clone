@@ -10,7 +10,7 @@ const RightSidebar = () => {
   );
   return (
     <Box sx={{ pb: showPlayer ? "205px" : "0" }}>
-      <Stack sx={{ overflow: "hidden", height: "100vh" }} id="rightSidebarRoot">
+      <Stack sx={{ overflow: "hidden" }} id="rightSidebarRoot">
         <NewReleasesTrack />
         <Box sx={{ width: "100%", overflow: "scroll" }}>
           <TopArtists />
