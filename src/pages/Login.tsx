@@ -6,6 +6,8 @@ import {
   Typography,
   Stack,
   Box,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import loginBackground from "../assets/images/login-bg.png";
@@ -15,12 +17,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 const Login = () => {
-  console.log("running login");
   const { oauthHandler } = useLogin();
   const [open, setOpen] = useState<boolean>(true);
   const { accessToken, accessGranted } = useSelector(
     (state: RootState) => state.userAuth
   );
+  const theme = useTheme();
+  const showBanner = useMediaQuery(theme.breakpoints.up(650));
 
   const handleClose = () => {
     setOpen(false);
@@ -41,7 +44,11 @@ const Login = () => {
 
   return (
     <Stack
-      sx={{ background: "linear-gradient(to bottom right, #001029, #134c88)" }}
+      sx={{
+        background: "linear-gradient(to bottom right, #001029, #134c88)",
+        height: "100vh",
+        justifyContent: "space-between",
+      }}
     >
       <Stack
         sx={{
@@ -49,9 +56,10 @@ const Login = () => {
           justifyContent: "center",
           alignItems: "center",
           gap: 5,
+          flex: "1 1 auto",
         }}
       >
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 2, display: showBanner ? "block" : "none" }}>
           <img
             src={loginBackground}
             height={"700"}
@@ -85,6 +93,8 @@ const Login = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              left: "50%",
+              transform: "translateX(-50%)",
               bgcolor: "primary.main",
             }}
             onClick={oauthHandler}
@@ -121,8 +131,10 @@ const Login = () => {
           </Snackbar>
         )}
       </Stack>
-      <Box sx={{ width: "100%", height: "1px", bgcolor: "white" }}></Box>
       <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+        <Box
+          sx={{ width: "100%", height: "1px", bgcolor: "white", my: 2 }}
+        ></Box>
         <Typography
           variant="body1"
           sx={{
