@@ -19,8 +19,8 @@ const Header = () => {
           sx={{
             position: "fixed",
             top: 0,
-            background: "hsla(0,0%,100%,.2)",
-            height: "50px",
+            background: "hsla(0,0%,100%,.6)",
+            height: "60px",
           }}
         >
           <Toolbar sx={{ gap: 1 }}>
